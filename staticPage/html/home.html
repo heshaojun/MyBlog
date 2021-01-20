@@ -1,23 +1,24 @@
-<!DOCTYPE html>
-<html lang="en">
-<head>
-    <meta charset="UTF-8">
-    <title>抠脚汉的博客</title>
-    <link rel="stylesheet" href="../css/bootstrap.min.css">
-    <link rel="stylesheet" href="../css/m.common.css">
-</head>
-<body>
-<header>
-    <div>
-
+<div class="container-xl" style="padding-top: 50px">
+    <div class="row flex-row-reverse">
+        <!-- 文章内容显示模块-->
+        <article class="col-md-9   p-0 pt-1 pb-1  sticky-top">
+            <div class="content_panel"></div>
+            <!--    底部备案信息-->
+            <div class="website-record"></div>
+        </article>
+        <!--    左侧面板-->
+        <aside class="col-md-3 align-self-start p-0  pt-1 pb-1  sticky-top">
+            <div class="aside_panel"></div>
+        </aside>
     </div>
-</header>
-<article>
-
-</article>
-</body>
-<script type="application/javascript" src="../js/jquery-3.5.1.min.js"></script>
-<script type="application/javascript" src="../js/showdown.min.js"></script>
-<script type="application/javascript" src="../js/bootstrap.bundle.min.js"></script>
-<script type="application/javascript" src="../js/bootstrap.min.js"></script>
-</html>
+</div>
+<script>
+    //滚动栏优化
+    $(function () {
+        $(".sticky-top").find("div").bind("DOMSubtreeModified", function () {
+            let parent = $(this).parent(".sticky-top");
+            parent.css("top", $(window).height() - parent.height());
+        });
+    });
+    $(".aside_panel").load('../html/_aside_panel.html');
+</script>

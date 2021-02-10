@@ -1,9 +1,9 @@
 <!--导航栏-->
-<div class="position-fixed w-100 m-auto bg-primary">
-    <div class="container-xl">
-        <nav class="navbar navbar-expand-lg navbar-light p-0 m-0 bg-light">
-            <div class="container-fluid ">
-                <a class="navbar-brand p-0" href="/home.html">
+<div class="fixed-top w-100 m-auto bg-primary">
+    <div class="container-xl p-0">
+        <nav class="navbar navbar-expand-lg navbar-dark p-0 m-0">
+            <div class="container-fluid  pl-2 pr-2">
+                <a class="navbar-brand p-0" href="home.html">
                     <img src="../img/logo.png" height="50px" loading="lazy">
                 </a>
                 <button class="navbar-toggler" type="button" data-toggle="collapse"
@@ -14,7 +14,7 @@
                 <div class="collapse navbar-collapse" id="navbarSupportedContent">
                     <ul class="navbar-nav mr-auto">
                         <li class="nav-item" id="_main-nav-btn-1">
-                            <a class="nav-link" href="/home">网站首页</a>
+                            <a class="nav-link" href="home.html">网站首页</a>
                         </li>
                         <li class="nav-item dropdown">
                             <a class="nav-link dropdown-toggle" href="#" id="navbarDropdown" role="button"
@@ -28,23 +28,23 @@
                             </div>
                         </li>
                         <li class="nav-item" id="_main-nav-btn-2">
-                            <a class="nav-link" href="/process">建筑过程</a>
+                            <a class="nav-link" href="process.html">建筑过程</a>
                         </li>
-                        <li class="nav-item">
-                            <a class="nav-link" href="/msg_board">留言板</a>
+                        <li class="nav-item" id="_main-nav-btn-3">
+                            <a class="nav-link" href="board.html">留言板</a>
                         </li>
-                        <li class="nav-item">
-                            <a class="nav-link" href="/about_me">关于我</a>
+                        <li class="nav-item" id="_main-nav-btn-4">
+                            <a class="nav-link" href="aboutme.html">关于我</a>
                         </li>
                     </ul>
-                    <form class="form-inline my-2 my-lg-0">
+                    <form class="form-inline my-2 my-lg-0" id="_main-nav-search">
                         <input class="form-control mr-sm-2" type="search" placeholder="搜索文章" aria-label="Search">
-                        <button class="btn btn-outline-success my-2 my-sm-0 active" type="submit">搜索</button>
+                        <button class="btn btn-outline-success my-2 my-sm-0 active" type="submit">搜索
+                        </button>
                     </form>
                 </div>
             </div>
         </nav>
-
     </div>
 </div>
 <script>

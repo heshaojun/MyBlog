@@ -1,14 +1,14 @@
-<div class="container-xl" style="padding-top: 50px">
-    <div class="row flex-row-reverse">
+<div class="container-xl" style="padding: 50px 0 0 0">
+    <div class="d-flex flex-row flex-row-reverse">
         <!-- 文章内容显示模块-->
-        <article class="col-md-9   p-0 pt-1 pb-1  sticky-top">
-            <div class="content_panel"></div>
+        <article class="col-md-9 p-0 pt-1 pb-1 sticky-top" style="top: -100px">
+            <div class="content_panel bg-info"></div>
             <!--    底部备案信息-->
-            <div class="website-record"></div>
+            <div class="website_record_panel bg-success"></div>
         </article>
         <!--    左侧面板-->
-        <aside class="col-md-3 align-self-start p-0  pt-1 pb-1  sticky-top">
-            <div class="aside_panel"></div>
+        <aside class="col-md-3 align-self-start p-0  pt-1 pb-1 sticky-top " style="top: -1000px">
+            <div class="aside_panel bg-primary"></div>
         </aside>
     </div>
 </div>
@@ -21,4 +21,6 @@
         });
     });
     $(".aside_panel").load('../html/_aside_panel.html');
+    $(".content_panel").load('../html/_list_panel.html');
+    $(".website_record_panel").load('../html/_website_record_panel.html');
 </script>

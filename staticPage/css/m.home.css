@@ -1,0 +1,5 @@
+.common-header:after {
+    content: "";
+    display: block;
+    margin-bottom: 50px;
+}

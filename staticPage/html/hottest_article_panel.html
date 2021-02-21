@@ -1,4 +1,21 @@
 <!--最热文章列表-->
-<div class="border">
-    最热文章top6 列表面板
+<div class="card mb-2">
+    <div class="card-header p-1 text-center">
+        热门文章
+    </div>
+    <div class="card-body p-2" id="hottest-article-list"></div>
 </div>
+<script>
+    $.get('../data/hottest_articles.json', function (data, status) {
+        if (status == 'success') {
+            if (data.code == 200) {
+                let list = data.data;
+                for (let index in list) {
+                    $('#hottest-article-list').append(
+                        '<div class="border-bottom small"><a class="btn text-black-50" href="/article/detail/' + list[index].id + '"><span>' + list[index].title + '</span></a></div>'
+                    );
+                }
+            }
+        }
+    })
+</script>

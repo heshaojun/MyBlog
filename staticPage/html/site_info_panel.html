@@ -10,5 +10,62 @@
                 <div class="font-weight-light text-black-50">code java by hand</div>
             </div>
         </div>
+        <div class="d-flex pb-2 flex-wrap">
+            <div class="col-6 pt-2">
+                访问：<span class="site-visit-count">--</span>
+            </div>
+            <div class="col-6 pt-2">
+                文章：<span class="site-article-count">--</span>
+            </div>
+            <div class="col-6 pt-2">
+                博客：<span class="site-blog-count">--</span>
+            </div>
+            <div class="col-6 pt-2">
+                笔记：<span class="site-note-count">--</span>
+            </div>
+            <div class="col-6 pt-2">
+                留言：<span class="site-msg-count">--</span>
+            </div>
+        </div>
+    </div>
+    <div class="card-footer d-flex justify-content-center">
+        <div class="col-3"><img class="btn p-0" src="../img/wechat.png" data-toggle="modal"
+                                data-target="#wechat_qr_img"></div>
+        <div class="col-3"><img class="btn p-0" src="../img/qq.png" data-toggle="modal"
+                                data-target="#qq_qr_img"></div>
+        <a class="d-block col-3" href="mailto:masker_zero@163.com"><img class="btn p-0"
+                                                                        src="../img/email.png"></a>
+        <a class="d-block col-3" href="https://github.com/heshaojun" target="_blank"><img class="btn p-0"
+                                                                                          src="../img/github.png"></a>
     </div>
 </div>
+<div>
+    <div class="modal fade" id="wechat_qr_img">
+        <div class="modal-dialog modal-dialog-centered modal-sm">
+            <div class="modal-content">
+                <img src="../img/wechat_qr.jpg">
+            </div>
+        </div>
+    </div>
+    <div class="modal fade" id="qq_qr_img">
+        <div class="modal-dialog modal-dialog-centered modal-sm">
+            <div class="modal-content">
+                <img src="../img/qq_qr.jpg">
+            </div>
+        </div>
+    </div>
+</div>
+<script>
+    $.get("../data/site_statistic.json", function (data, status) {
+        debugger
+        if (status == "success") {
+            if (data.code == 200) {
+                $('.site-visit-count').text(data.data['visit']);
+                $('.site-article-count').text(data.data['article']);
+                $('.site-blog-count').text(data.data['blog']);
+                $('.site-note-count').text(data.data['note']);
+                $('.site-msg-count').text(data.data['msg']);
+            }
+        }
+    });
+</script>

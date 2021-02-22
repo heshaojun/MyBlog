@@ -3,3 +3,11 @@
     display: block;
     margin-bottom: 50px;
 }
+
+.nav-link {
+    color: white !important;
+}
+
+.nav-link:hover, .nav-link:focus {
+    font-size: larger;
+}

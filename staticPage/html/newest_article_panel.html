@@ -1,9 +1,21 @@
 <!--最新文章列表面板-->
-<div class="card mb-2">
-    <div class="card-header p-1 text-center">
+<div class="card mb-2 sticky-top">
+    <div class="card-header p-2 text-center">
         最新文章
     </div>
-    <div class="card-body p-2">
-        呵呵呵
-    </div>
+    <div class="card-body p-2" id="newest-article-list"></div>
 </div>
+<script>
+    $.get('../data/newest_articles.json', function (data, status) {
+        if (status == 'success') {
+            if (data.code == 200) {
+                let list = data.data;
+                for (let index in list) {
+                    $('#newest-article-list').append(
+                        '<div class="border-bottom small"><a class="btn text-black-50" href="/article/detail/' + list[index].id + '"><span>' + list[index].title + '</span></a></div>'
+                    );
+                }
+            }
+        }
+    });
+</script>

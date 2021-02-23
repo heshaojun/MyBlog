@@ -1,4 +1,68 @@
 <!--文件列表面板-->
 <div class="card p-2">
-    文章列表面板
+    <!--头部导航-->
+    <div class="w-100 border-bottom">
+        <ul class="nav">
+            <li class="nav-item active">
+                <a class="btn" onclick="articleScopeClick(this)">全部</a>
+            </li>
+            <li class="nav-item">
+                <a class="btn" onclick="articleScopeClick(this)">博客</a>
+            </li>
+            <li class="nav-item">
+                <a class="btn" onclick="articleScopeClick(this)">笔记</a>
+            </li>
+        </ul>
+    </div>
+    <!--文章列表区域-->
+    <div class="article-list-area">
+
+    </div>
+    <!--文章列表分页条-->
+    <div class="article-list-pagination-bar">
+
+    </div>
 </div>
+<script>
+    /*文章类型按钮点击函数*/
+    function articleScopeClick(selector) {
+        if (!$(selector).parent(".nav-item").hasClass("active")) {
+            $($($(selector).parents('ul.nav')[0]).find(".nav-item.active")[0]).removeClass("active");
+            $(selector).parent().addClass("active");
+        }
+    }
+
+    function loadArticleList(selector, list) {
+        let html = ""
+        for (let i in list) {
+            let item = list[i];
+            html += '        <div class="d-block w-100 border-bottom article-list-item pt-2 pb-1"\n' +
+                '             onclick="window.location.href=\'/article/detail/' + item['id'] + '\'">\n' +
+                '            <div class="pl-1 pr-1">\n' +
+                '                <span class="bg-success small">' + item['type'] + '</span>\n' +
+                '                <span class="font-weight-bolder">' + item['title'] + '</span>\n' +
+                '            </div>\n' +
+                '            <div class="font-weight-light  pl-1 pr-1">\n' +
+                '                ' + item['summary'] + '\n' +
+                '            </div>\n' +
+                '            <div class="d-flex justify-content-start pl-1 pr-1">\n' +
+                '                <div class="pr-5">\n' +
+                '                    <img style="height: 18px" src="../img/comments_icon.png">\n' +
+                '                    <span class="small pl-1" style="color: rgb(138,138,138)">' + item['comment'] + '</span>\n' +
+                '                </div>\n' +
+                '                <div class="pr-5">\n' +
+                '                    <img style="height: 18px" src="../img/watch_icon.png">\n' +
+                '                    <span class="small pl-1" style="color: rgb(138,138,138)">' + item['visit'] + '</span>\n' +
+                '                </div>\n' +
+                '                <div class="pr-5">\n' +
+                '                    <span class="small pl-1" style="color: rgb(138,138,138)">' + item['time'] + '</span>\n' +
+                '                </div>\n' +
+                '            </div>\n' +
+                '        </div>';
+        }
+    }
+
+    function loadPagination(selector, data) {
+
+    }
+</script>

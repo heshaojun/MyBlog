@@ -57,7 +57,6 @@
 </div>
 <script>
     $.get("../data/site_statistic.json", function (data, status) {
-        debugger
         if (status == "success") {
             if (data.code == 200) {
                 $('.site-visit-count').text(data.data['visit']);

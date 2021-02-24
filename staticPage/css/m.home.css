@@ -23,6 +23,12 @@
 .nav-item.active a {
     font-weight: bolder;
 }
-.article-list-item:hover{
+
+.article-list-item:hover {
     background-color: #f3f3f3;
+}
+
+.page-item.active .page-link {
+    background-color: #7abaff !important;
+    border-color: #7abaff !important;
 }

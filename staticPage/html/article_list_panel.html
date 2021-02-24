@@ -15,11 +15,11 @@
         </ul>
     </div>
     <!--文章列表区域-->
-    <div class="article-list-area">
+    <div class="article-list-area pb-4">
 
     </div>
     <!--文章列表分页条-->
-    <div class="article-list-pagination-bar">
+    <div class="article-list-pagination-bar m-auto">
 
     </div>
 </div>
@@ -32,18 +32,19 @@
         }
     }
 
+    /*文章列表加载函数*/
     function loadArticleList(selector, list) {
         let html = ""
         for (let i in list) {
             let item = list[i];
             html += '        <div class="d-block w-100 border-bottom article-list-item pt-2 pb-1"\n' +
                 '             onclick="window.location.href=\'/article/detail/' + item['id'] + '\'">\n' +
-                '            <div class="pl-1 pr-1">\n' +
-                '                <span class="bg-success small">' + item['type'] + '</span>\n' +
-                '                <span class="font-weight-bolder">' + item['title'] + '</span>\n' +
+                '            <div class="pl-1 pr-1 d-flex ">\n' +
+                '                <div class="small  align-self-center text-danger pr-2">' + item['type'] + '</div>\n' +
+                '                <div class="font-weight-bolder">' + item['title'] + '</div>\n' +
                 '            </div>\n' +
-                '            <div class="font-weight-light  pl-1 pr-1">\n' +
-                '                ' + item['summary'] + '\n' +
+                '            <div class="text-black-50  pl-1 pr-1">\n' +
+                '                ' + item['summery'] + '\n' +
                 '            </div>\n' +
                 '            <div class="d-flex justify-content-start pl-1 pr-1">\n' +
                 '                <div class="pr-5">\n' +
@@ -60,9 +61,85 @@
                 '            </div>\n' +
                 '        </div>';
         }
+        $(selector).html(html);
     }
 
+    /*分页条加载函数*/
     function loadPagination(selector, data) {
+        let html = '<ul class="pagination">'
+        let whole = data['whole']
+        let index = data['index']
+        if (index > whole) {
+            index = whole;
+        }
+        if (index <= 1) {
+            index = 1;
+            html += '<li class="page-item disabled"><a class="page-link">前一页</a></li>';
+        } else {
+            html += '<li class="page-item"><a class="page-link" onclick="homeListPagePre()">前一页</a></li>';
+        }
+        if (index > 6) {
+            html += '<li class="page-item"><a class="page-link" onclick="homeListPageChange(this)">1</a></li>';
+            html += '<li class="page-item"><a class="page-link" onclick="homeListPageChange(this)">2</a></li>';
+            html += '<li class="page-item disabled"><a class="page-link">...</a></li>';
+            html += '<li class="page-item"><a class="page-link" onclick="homeListPageChange(this)">' + (index - 1) + '</a></li>';
+            html += '<li class="page-item active"><a class="page-link" onclick="homeListPageChange(this)">' + index + '</a></li>';
+
+        } else {
+            for (let i = 1; i <= (whole <= 6 ? whole : 6); i++) {
+                if (i == index) {
+                    html += '<li class="page-item active"><a class="page-link" onclick="homeListPageChange(this)">' + index + '</a></li>';
+                } else {
+                    html += '<li class="page-item"><a class="page-link" onclick="homeListPageChange(this)">' + i + '</a></li>';
+                }
+            }
+        }
+        if (whole - index >= 4) {
+            html += '<li class="page-item disabled"><a class="page-link">...</a></li>';
+            html += '<li class="page-item"><a class="page-link" onclick="homeListPageChange(this)">' + (whole - 1) + '</a></li>';
+            html += '<li class="page-item"><a class="page-link" onclick="homeListPageChange(this)">' + whole + '</a></li>';
+        } else {
+            for (let i = index + 1; i <= whole; i++) {
+                html += '<li class="page-item"><a class="page-link" onclick="homeListPageChange(this)">' + i + '</a></li>';
+            }
+        }
+        if (index == whole) {
+            html += '<li class="page-item disabled"><a class="page-link">下一页</a></li>';
+        } else {
+            html += '<li class="page-item"><a class="page-link" onclick="homeListPageNext()">下一页</a></li>';
+        }
+        html += '</ul>';
+        console.log(html);
+        $(selector).html(html);
+    }
+
+    /*翻页函数*/
+    function homeListPageChange(selector) {
 
     }
+
+    function homeListPagePre() {
+
+    }
+
+    function homeListPageNext() {
+
+    }
+
+    function loadListArea(scope, page) {
+        $.get('../data/article_list.json?scope=' + scope + '&page=' + page, function (data, status) {
+            if (status == 'success') {
+                if (data.code == 200) {
+                    let respData = data['data'];
+                    let list = respData['list'];
+                    loadArticleList(".article-list-area", list);
+                    loadPagination(".article-list-pagination-bar", respData);
+                }
+            }
+        });
+    }
+
+    $(function () {
+        loadListArea("all", 1);
+    });
 </script>

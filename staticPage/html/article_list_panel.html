@@ -66,47 +66,54 @@
 
     /*分页条加载函数*/
     function loadPagination(selector, data) {
-        let html = '<ul class="pagination">'
-        let whole = data['whole']
-        let index = data['index']
+        let html = '<ul class="pagination">';
+        let whole = data['whole'];
+        let index = data['index'];
         if (index > whole) {
             index = whole;
         }
         if (index <= 1) {
             index = 1;
-            html += '<li class="page-item disabled"><a class="page-link">前一页</a></li>';
+            html += '<li class="page-item disabled"><a class="page-link">前一页</a></li>\n';
         } else {
-            html += '<li class="page-item"><a class="page-link" onclick="homeListPagePre()">前一页</a></li>';
+            html += '<li class="page-item"><a class="page-link" onclick="homeListPagePre()">前一页</a></li>\n';
         }
-        if (index > 6) {
-            html += '<li class="page-item"><a class="page-link" onclick="homeListPageChange(this)">1</a></li>';
-            html += '<li class="page-item"><a class="page-link" onclick="homeListPageChange(this)">2</a></li>';
-            html += '<li class="page-item disabled"><a class="page-link">...</a></li>';
-            html += '<li class="page-item"><a class="page-link" onclick="homeListPageChange(this)">' + (index - 1) + '</a></li>';
-            html += '<li class="page-item active"><a class="page-link" onclick="homeListPageChange(this)">' + index + '</a></li>';
+        if (index >= 6) {
+            if (whole - index < 4) {
+                for (let i = 1; i <= 4 - (whole - index) + 2; i++) {
+                    html += '<li class="page-item"><a class="page-link" onclick="homeListPageChange(this)">' + i + '</a></li>\n';
+                }
+            } else {
+                html += '<li class="page-item"><a class="page-link" onclick="homeListPageChange(this)">1</a></li>\n';
+                html += '<li class="page-item"><a class="page-link" onclick="homeListPageChange(this)">2</a></li>\n';
+            }
+            html += '<li class="page-item disabled"><a class="page-link">...</a></li>\n';
+            html += '<li class="page-item"><a class="page-link" onclick="homeListPageChange(this)">' + (index - 1) + '</a></li>\n';
+            html += '<li class="page-item active"><a class="page-link" onclick="homeListPageChange(this)">' + index + '</a></li>\n';
 
         } else {
-            for (let i = 1; i <= (whole <= 6 ? whole : 6); i++) {
+            for (let i = 1; i <= (whole <= 5 ? whole : 5); i++) {
                 if (i == index) {
-                    html += '<li class="page-item active"><a class="page-link" onclick="homeListPageChange(this)">' + index + '</a></li>';
+                    html += '<li class="page-item active"><a class="page-link" onclick="homeListPageChange(this)">' + index + '</a></li>\n';
                 } else {
-                    html += '<li class="page-item"><a class="page-link" onclick="homeListPageChange(this)">' + i + '</a></li>';
+                    html += '<li class="page-item"><a class="page-link" onclick="homeListPageChange(this)">' + i + '</a></li>\n';
                 }
             }
         }
-        if (whole - index >= 4) {
-            html += '<li class="page-item disabled"><a class="page-link">...</a></li>';
-            html += '<li class="page-item"><a class="page-link" onclick="homeListPageChange(this)">' + (whole - 1) + '</a></li>';
-            html += '<li class="page-item"><a class="page-link" onclick="homeListPageChange(this)">' + whole + '</a></li>';
+        if (whole - index > 4) {
+            html += '<li class="page-item"><a class="page-link" onclick="homeListPageChange(this)">' + (index + 1) + '</a></li>\n';
+            html += '<li class="page-item disabled"><a class="page-link">...</a></li>\n';
+            html += '<li class="page-item"><a class="page-link" onclick="homeListPageChange(this)">' + (whole - 1) + '</a></li>\n';
+            html += '<li class="page-item"><a class="page-link" onclick="homeListPageChange(this)">' + whole + '</a></li>\n';
         } else {
             for (let i = index + 1; i <= whole; i++) {
-                html += '<li class="page-item"><a class="page-link" onclick="homeListPageChange(this)">' + i + '</a></li>';
+                html += '<li class="page-item"><a class="page-link" onclick="homeListPageChange(this)">' + i + '</a></li>\n';
             }
         }
         if (index == whole) {
-            html += '<li class="page-item disabled"><a class="page-link">下一页</a></li>';
+            html += '<li class="page-item disabled"><a class="page-link">下一页</a></li>\n';
         } else {
-            html += '<li class="page-item"><a class="page-link" onclick="homeListPageNext()">下一页</a></li>';
+            html += '<li class="page-item"><a class="page-link" onclick="homeListPageNext()">下一页</a></li>\n';
         }
         html += '</ul>';
         console.log(html);

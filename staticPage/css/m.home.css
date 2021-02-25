@@ -1,29 +1,3 @@
-.common-header:after {
-    content: "";
-    display: block;
-    margin-bottom: 50px;
-}
-
-.nav-link {
-    color: white !important;
-}
-
-.nav-item a {
-    color: rgb(80, 80, 80);
-}
-
-.nav-link:hover, .nav-link:focus {
-    font-weight: bolder;
-}
-
-.nav-item.active {
-    border-bottom: 2px solid rgb(80, 80, 80);
-}
-
-.nav-item.active a {
-    font-weight: bolder;
-}
-
 .article-list-item:hover {
     background-color: #f3f3f3;
 }

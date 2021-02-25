@@ -1,0 +1,19 @@
+{
+  "code": 200,
+  "msg": "ok",
+  "data": {
+    "title": "文章标题",
+    "summery": "文章概要",
+    "type": "文章类型",
+    "time": "2020-10-30 10:44:23",
+    "visit": "10万+",
+    "comment": "100",
+    "id": "dfdsfjsdl",
+    "content": "内容",
+    "pre": {
+      "title": "dsfdsf",
+      "id": "sdfdsfads"
+    },
+    "next": null
+  }
+}

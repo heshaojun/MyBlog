@@ -2,7 +2,7 @@ $(function () {
     /*加载导航栏*/
     $('.common-header').load(NAVIGATOR_PANEL_URL);
     /*加载文章列表*/
-    $('.content-right').load(ARTICLE_LIST_PANEL_URL);
+    $('.content-right .content-right-area').load(ARTICLE_LIST_PANEL_URL);
     /*加载统计信息*/
     $.get(SITE_INFO_PANEL_URL, function (data) {
         $('.site-info-area').append(data);

@@ -1,18 +1,49 @@
 <div class="card">
     <div class="card-body p-2">
-        <div class="article-content-area" data-target="1232434">
+        <div class="article-content-area">
 
         </div>
-        <div class="article-comment-area">
-            底部
-        </div>
+    </div>
+</div>
+<div class="card mt-2">
+    <div class="card-body">
+        评论区
     </div>
 </div>
 <script>
     showdown.setFlavor('github');
     let converter = new showdown.Converter({noHeaderId: true});
     $(function () {
-        $.get("../data/article")
+        $.get("../data/article_info.json?articleId=" + articleId, function (data) {
+            let html = '<h3>文章不存在！</h3>';
+            if (data.code == 200) {
+                let info = data.data;
+                let context = converter.makeHtml(info['context']);
+                html = '<h4>' + info['title'] + '</h4>\n' +
+                    '            <div style="background-color: rgb(220,220,220);border-radius: 2px">\n' +
+                    '                <div class="w-100 p-1 d-flex flex-wrap align-items-center text-black-50 small">\n' +
+                    '                    <div class="bg-success small mr-2 align-self-center"\n' +
+                    '                         style="border-radius: 2px;padding: 0 2px 0 2px;">' + info['type'] + '\n' +
+                    '                    </div>\n' +
+                    '                    <div class="pr-3 align-self-center">' + info['time'] + '</div>\n' +
+                    '                    <div class="align-self-center"><img style="height: 20px" src="../img/watch_icon.png"></div>\n' +
+                    '                    <div class="pr-3 align-self-center">' + info['visit'] + '</div>\n' +
+                    '                    <div class="align-self-center"><img style="height: 20px" src="../img/comments_icon.png"></div>\n' +
+                    '                    <div class="pr-3 align-self-center">' + info['comment'] + '</div>\n' +
+                    '                    <div class="pr-3 align-self-center">文章地址：wwww.codejavahand.cn/article/detail/' + articleId + '</div>\n' +
+                    '                    <div class="pr-3 align-self-center font-italic">注：本站博客多为原创，如有装载请表明出处。</div>\n' +
+                    '                </div>\n' +
+                    '            </div>\n' +
+                    '            <div class="pt-2">\n' +
+                    '                ' + context + '\n' +
+                    '            </div>\n' +
+                    '            <div class="pt-3 pb-2">\n' +
+                    '                <div>上一篇：' + (info['pre'] ? ("<a href='/article/detail/" + info['pre']['id'] + "'>" + info['pre']['title'] + "</a>") : "没有了！") + '</div>\n' +
+                    '                <div>下一篇：' + (info['next'] ? ("<a href='/article/detail/" + info['next']['id'] + "'>" + info['next']['title'] + "</a>") : "没有了！") + '</div>\n' +
+                    '            </div>';
+            }
+            $('.article-content-area').html(html);
+        });
     });
 
 </script>

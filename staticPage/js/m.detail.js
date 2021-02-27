@@ -1,30 +1,30 @@
-var articleId = null;
+let articleId = null;
 $(function () {
     /*加载导航栏*/
-    $('.common-header').load("../html/navigator.html");
+    $('.common-header').load(NAVIGATOR_PANEL_URL);
     /*加载统计信息*/
-    $.get("../html/site_info_panel.html", function (data, status) {
+    $.get(SITE_INFO_PANEL_URL, function (data, status) {
         $('.site-info-area').append(data);
     });
-    articleId = $('.content-right').getAttribute("article-id");
+    articleId = $('.content-right').attr("article-id");
     /*加载文章内容*/
-    $('.content-right').load("../html/article_detail_panel.html?articleId=" + articleId);
+    $('.content-right .content-right-area').load("../html/article_detail_panel.html?articleId=" + articleId);
     /*加载最新文章列表面板*/
-    $.get("../html/newest_article_panel.html", function (data, status) {
+    $.get(NEWEST_ARTICLE_PANEL_URL, function (data, status) {
         $('.newest-article-area').append(data);
     });
     /*加载最热文章类表面板*/
-    $.get("../html/hottest_article_panel.html", function (data, status) {
+    $.get(HOTTEST_ARTICLE_PANEL_URL, function (data, status) {
         $('.hottest-article-area').append(data);
     });
     /*加载文章分类标签面板*/
-    $.get("../html/classify_labels_panel.html", function (data, status) {
+    $.get(CLASSIFY_LABELS_PANEL_URL, function (data, status) {
         $('.classify-labels-area').append(data);
     });
     /*加载文章标签面版*/
-    $.get("../html/article_labels_panel.html", function (data, status) {
+    $.get(ARTICLE_LABELS_PANEL_URL, function (data, status) {
         $('.article-labels-area').append(data);
     });
     /*加载底部备案信息*/
-    $('.common-footer').load('../html/bottom.html')
+    $('.common-footer').load(BOTTOM_PANEL_URL);
 });

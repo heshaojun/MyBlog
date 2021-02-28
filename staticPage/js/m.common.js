@@ -14,7 +14,9 @@ const CLASSIFY_LABELS_PANEL_URL = "../html/classify_labels_panel.html";
 const ARTICLE_LABELS_PANEL_URL = "../html/article_labels_panel.html";
 /*底部备案信息面板页*/
 const BOTTOM_PANEL_URL = '../html/bottom.html';
+/*留言板面板路径*/
+const MSG_BOARD_PANEL_URL = '../html/msg_board_panel.html';
+/*关于我面板路径*/
+const ABOUT_ME_PANEL_URL = '../html/about_me_panel.html';
 /**/
 const MODAL_PANELS_URL = '../html/modal_panels.html';
-
-let visitor_login_info = null;

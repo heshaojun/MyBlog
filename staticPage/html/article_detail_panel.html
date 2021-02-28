@@ -24,6 +24,7 @@
 <script>
     showdown.setFlavor('github');
     let converter = new showdown.Converter({noHeaderId: true});
+    let visitor_login_info = getUserInfo();
     $(function () {
         $.get("../data/article_info.json?articleId=" + articleId, function (data) {
             let html = '<h3>文章不存在！</h3>';
@@ -88,6 +89,10 @@
 
     function commentCounter(selector) {
         $("#comment-text-counter").text("" + $(selector).val().length + "/300")
+    }
+
+    function getUserInfo() {
+        return null;
     }
 
     function popUpLogin(selector) {

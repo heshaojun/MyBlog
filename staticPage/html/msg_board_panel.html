@@ -1,0 +1,163 @@
+<!--留言板面板-->
+<div class="card mt-2 p-2">
+    <div class="card-body p-0 pb-4">
+        <div class="w-100">
+            <span class="text-black-50" id="visitor-login-info">没有登录</span>
+            <span class="position-relative float-right  text-black-50"
+                  id="msg-text-counter">0/300
+            </span>
+            <textarea class="w-100" style="resize: none" maxlength="300" rows="7" readonly onclick="popUpLogin(this)"
+                      oninput="commentCounter(this)" placeholder="欢迎发表你的留言！"></textarea>
+            <div class="btn w-100" style="background-color: #7abaff">发表</div>
+        </div>
+    </div>
+    <div class="text-center"><h5>用户评论</h5></div>
+    <div class="msg-list pb-4">
+
+    </div>
+    <div class="msg-pagination m-auto">
+
+    </div>
+</div>
+
+<script>
+    let visitor_login_info = getUserInfo();
+    let pageSize = 10;
+
+    function commentCounter(selector) {
+        $("#msg-text-counter").text("" + $(selector).val().length + "/300")
+    }
+
+    function getUserInfo() {
+        return null;
+    }
+
+    function popUpLogin(selector) {
+        if (!visitor_login_info) {
+            alert("请登录！")
+        } else {
+            $(selector).removeAttr("readonly");
+        }
+    }
+
+    /*分页条加载函数*/
+    function loadPagination(selector, data) {
+        let html = '<ul class="pagination">';
+        let whole = data['whole'];
+        let index = data['index'];
+        if (index > whole) {
+            index = whole;
+        }
+        if (whole == 1) return;
+        if (index <= 1) {
+            index = 1;
+            html += '<li class="page-item disabled"><a class="page-link">前一页</a></li>\n';
+        } else {
+            html += '<li class="page-item"><a class="page-link" onclick="msgListPagePre()">前一页</a></li>\n';
+        }
+        if (whole <= 9) {
+            for (let i = 1; i <= whole; i++) {
+                if (i == index) {
+                    html += '<li class="page-item active"><a class="page-link" onclick="msgListPageChange(this)">' + index + '</a></li>\n';
+                } else {
+                    html += '<li class="page-item"><a class="page-link" onclick="msgListPageChange(this)">' + i + '</a></li>\n';
+                }
+            }
+        } else {
+            if (index >= 6) {
+                html += '<li class="page-item"><a class="page-link" onclick="msgListPageChange(this)">1</a></li>\n';
+                html += '<li class="page-item"><a class="page-link" onclick="msgListPageChange(this)">2</a></li>\n';
+                html += '<li class="page-item disabled"><a class="page-link">...</a></li>\n';
+                if (whole - index > 4) {
+                    html += '<li class="page-item"><a class="page-link" onclick="msgListPageChange(this)">' + (index - 1) + '</a></li>\n';
+                    html += '<li class="page-item active"><a class="page-link" onclick="msgListPageChange(this)">' + index + '</a></li>\n';
+                    html += '<li class="page-item"><a class="page-link" onclick="msgListPageChange(this)">' + (index + 1) + '</a></li>\n';
+                    html += '<li class="page-item disabled"><a class="page-link">...</a></li>\n';
+                    html += '<li class="page-item"><a class="page-link" onclick="msgListPageChange(this)">' + (whole - 1) + '</a></li>\n';
+                    html += '<li class="page-item"><a class="page-link" onclick="msgListPageChange(this)">' + whole + '</a></li>\n';
+                } else {
+                    for (let i = index; i <= whole; i++) {
+                        html += '<li class="page-item"><a class="page-link" onclick="msgListPageChange(this)">' + i + '</a></li>\n';
+                    }
+                }
+            }
+            if (index < 6) {
+                for (let i = 1; i <= 6; i++) {
+                    if (i == index) {
+                        html += '<li class="page-item active"><a class="page-link" onclick="msgListPageChange(this)">' + index + '</a></li>\n';
+                    } else {
+                        html += '<li class="page-item"><a class="page-link" onclick="msgListPageChange(this)">' + i + '</a></li>\n';
+                    }
+                }
+                if (whole - index > 4) {
+                    html += '<li class="page-item disabled"><a class="page-link">...</a></li>\n';
+                    html += '<li class="page-item"><a class="page-link" onclick="msgListPageChange(this)">' + (whole - 1) + '</a></li>\n';
+                    html += '<li class="page-item"><a class="page-link" onclick="msgListPageChange(this)">' + whole + '</a></li>\n';
+                }
+            }
+        }
+        if (index == whole) {
+            html += '<li class="page-item disabled"><a class="page-link">下一页</a></li>\n';
+        } else {
+            html += '<li class="page-item"><a class="page-link" onclick="msgListPageNext()">下一页</a></li>\n';
+        }
+        html += '</ul>';
+        $(selector).html(html);
+    }
+
+    /*翻页函数*/
+    function msgListPageChange(selector) {
+
+    }
+
+    function msgListPagePre() {
+
+    }
+
+    function loadMsgList(data) {
+        let html = "";
+        let msgsInfo = data;
+        for (let index in msgsInfo) {
+            let img_url = '../img/wechat.png';
+            let msgInfo = msgsInfo[index];
+            if (msgInfo['type'] == 'qq') {
+                img_url = '../img/qq.png';
+            }
+            if (msgInfo['type'] == 'github') {
+                img_url = '../img/github.png';
+            }
+            let item = '<div>\n' +
+                '            <div>\n' +
+                '                <img style="height: 25px" src="' + img_url + '">\n' +
+                '                <span class="align-items-center text-black-50 comment-user-name"></span>\n' +
+                '                <span class="comment-item-comment"></span>\n' +
+                '                <div class="small float-right text-black-50">' + msgInfo['time'] + '</div>\n' +
+                '            </div>\n' + '</div>\n';
+            let item_selector = $(item);
+            console.log($(item_selector).html());
+            $(item_selector).find('.comment-user-name').text(msgInfo['name'] + "：");
+            $(item_selector).find('.comment-item-comment').text(msgInfo['comment']);
+            html += '        <div class="card p-2 mb-1">\n' + $(item_selector).html() + '        </div>\n';
+        }
+        $('.msg-list').html(html);
+    }
+
+    function msgListPageNext() {
+
+    }
+
+    function loadMsgListArea(page) {
+        $.get('../data/msg_list.json?page=' + page + '&pageSize=' + pageSize, function (data) {
+            if (data.code == 200) {
+                let respData = data['data'];
+                let list = respData['list'];
+                loadMsgList(list);
+                loadPagination(".msg-pagination", respData);
+            }
+        });
+    }
+
+    $(function () {
+        loadMsgListArea(1);
+    });
+</script>

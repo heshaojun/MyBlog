@@ -1,5 +1,6 @@
 let articleId = null;
 $(function () {
+    $(".modal-area").load(MODAL_PANELS_URL);
     /*加载导航栏*/
     $('.common-header').load(NAVIGATOR_PANEL_URL);
     /*加载统计信息*/
@@ -26,5 +27,15 @@ $(function () {
         $('.article-labels-area').append(data);
     });
     /*加载底部备案信息*/
-    $('.common-footer').load(BOTTOM_PANEL_URL);
+    $.get(BOTTOM_PANEL_URL, function (data, status) {
+        $('.common-footer').append(data);
+    });
+    $(window).scroll(function () {
+        if ($('.content-left-area').height() > $(window).height()) {
+            $('.content-left-area').css('top', $(window).height() - $('.content-left-area').height());
+        } else {
+            $('.content-left-area').css('top', "50px");
+        }
+    });
+
 });

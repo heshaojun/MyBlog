@@ -23,3 +23,11 @@
 .nav-item.active a {
     font-weight: bolder;
 }
+
+a.tab-item:hover {
+    text-decoration: none;
+}
+
+a.tab-item.selected, a.tab-item.selected:hover {
+    color: black;
+}

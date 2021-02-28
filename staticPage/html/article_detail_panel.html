@@ -7,7 +7,18 @@
 </div>
 <div class="card mt-2">
     <div class="card-body">
-        评论区
+        <div class="w-100">
+            <span class="text-black-50" id="visitor-login-info">没有登录</span>
+            <span class="position-relative float-right  text-black-50"
+                  id="comment-text-counter">0/300
+            </span>
+            <textarea class="w-100" style="resize: none" maxlength="300" rows="7" readonly onclick="popUpLogin(this)"
+                      oninput="commentCounter(this)" placeholder="欢迎发表你的评论！"></textarea>
+            <div class="btn w-100" style="background-color: #7abaff">发表</div>
+        </div>
+        <hr>
+    </div>
+    <div class="article-comments-list">
     </div>
 </div>
 <script>
@@ -39,11 +50,51 @@
                     '            </div>\n' +
                     '            <div class="pt-3 pb-2">\n' +
                     '                <div>上一篇：' + (info['pre'] ? ("<a href='/article/detail/" + info['pre']['id'] + "'>" + info['pre']['title'] + "</a>") : "没有了！") + '</div>\n' +
-                    '                <div>下一篇：' + (info['next'] ? ("<a href='/article/detail/" + info['next']['id'] + "'>" + info['next']['title'] + "</a>") : "没有了！") + '</div>\n' +
+                    '                <div class="float-lg-right clearfix">下一篇：' + (info['next'] ? ("<a href='/article/detail/" + info['next']['id'] + "'>" + info['next']['title'] + "</a>") : "没有了！") + '</div>\n' +
                     '            </div>';
             }
             $('.article-content-area').html(html);
         });
+        $.get("../data/comments.json", function (data, status) {
+            if (data.code == 200) {
+                let html = "";
+                let commentsInfo = data.data;
+                for (let index in commentsInfo) {
+                    let img_url = '../img/wechat.png';
+                    let commentInfo = commentsInfo[index];
+                    if (commentInfo['type'] == 'qq') {
+                        img_url = '../img/qq.png';
+                    }
+                    if (commentInfo['type'] == 'github') {
+                        img_url = '../img/github.png';
+                    }
+                    let item = '<div>\n' +
+                        '            <div>\n' +
+                        '                <img style="height: 25px" src="' + img_url + '">\n' +
+                        '                <span class="align-items-center text-black-50 comment-user-name"></span>\n' +
+                        '                <span class="comment-item-comment"></span>\n' +
+                        '                <div class="small float-right text-black-50">' + commentInfo['time'] + '</div>\n' +
+                        '            </div>\n' + '</div>\n';
+                    let item_selector = $(item);
+                    console.log($(item_selector).html());
+                    $(item_selector).find('.comment-user-name').text(commentInfo['name'] + "：");
+                    $(item_selector).find('.comment-item-comment').text(commentInfo['comment']);
+                    html += '        <div class="card p-2 mb-1">\n' + $(item_selector).html() + '        </div>\n';
+                }
+                $('.article-comments-list').html(html);
+            }
+        });
     });
 
+    function commentCounter(selector) {
+        $("#comment-text-counter").text("" + $(selector).val().length + "/300")
+    }
+
+    function popUpLogin(selector) {
+        if (!visitor_login_info) {
+            alert("请登录！")
+        } else {
+            $(selector).removeAttr("readonly");
+        }
+    }
 </script>

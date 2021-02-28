@@ -1,7 +1,9 @@
 <!--文件列表面板-->
 <div class="card p-2">
+    <div class="article-list-head p-2 text-center" style="background-color:rgb(240,240,240); border-radius: 2px">
+    </div>
     <!--头部导航-->
-    <div class="w-100 border-bottom">
+    <div class="w-100 border-bottom d-flex flex-wrap">
         <ul class="nav">
             <li class="nav-item active">
                 <a class="btn" onclick="articleScopeClick(this)">全部</a>
@@ -13,6 +15,11 @@
                 <a class="btn" onclick="articleScopeClick(this)">笔记</a>
             </li>
         </ul>
+        <div class="align-self-center small ml-auto list-order-by">
+            <a class="tab-item selected" onclick="orderByChange(this)" data-toggle="time">时间排序</a>
+            <span>/</span>
+            <a class="tab-item" onclick="orderByChange(this)" data-toggle="visit">阅读量排序</a>
+        </div>
     </div>
     <!--文章列表区域-->
     <div class="article-list-area pb-4">
@@ -24,6 +31,12 @@
     </div>
 </div>
 <script>
+    let listType = $('.content-right').attr('list-type');
+    let keyWord = $('.content-right').attr('key-word');
+    let scope = 'all';
+    let pageSize = 10;
+    let orderBy = 'time';
+
     /*文章类型按钮点击函数*/
     function articleScopeClick(selector) {
         if (!$(selector).parent(".nav-item").hasClass("active")) {
@@ -72,6 +85,7 @@
         if (index > whole) {
             index = whole;
         }
+        if (whole == 1) return;
         if (index <= 1) {
             index = 1;
             html += '<li class="page-item disabled"><a class="page-link">前一页</a></li>\n';
@@ -133,20 +147,39 @@
 
     }
 
-    function loadListArea(scope, page) {
-        $.get('../data/article_list.json?scope=' + scope + '&page=' + page, function (data, status) {
-            if (status == 'success') {
-                if (data.code == 200) {
-                    let respData = data['data'];
-                    let list = respData['list'];
-                    loadArticleList(".article-list-area", list);
-                    loadPagination(".article-list-pagination-bar", respData);
-                }
+    function orderByChange(selector) {
+        if ($(selector).hasClass("selected")) return;
+        orderBy = $(selector).attr("data-toggle");
+        $($(selector).parent()).find('a.tab-item.selected').removeClass('selected');
+        $(selector).addClass('selected');
+        loadListArea(1);
+    }
+
+    function loadListArea(page) {
+        $.get('../data/article_list.json?scope=' + scope + '&page=' + page + '&pageSize=' + pageSize + '&type=' + listType + '&keyword=' + keyWord + '&order=' + orderBy, function (data) {
+            if (data.code == 200) {
+                let respData = data['data'];
+                let list = respData['list'];
+                loadArticleList(".article-list-area", list);
+                loadPagination(".article-list-pagination-bar", respData);
             }
         });
     }
 
     $(function () {
-        loadListArea("all", 1);
+
+        if (listType == 'all') {
+            $(".article-list-head").hide();
+        }
+        if (listType == 'label') {
+            $(".article-list-head").text("标签为：《" + keyWord + "》的文章");
+        }
+        if (listType == 'search') {
+            $(".article-list-head").text("搜索关键字：《" + keyWord + "》的文章");
+        }
+        if (listType == 'classify') {
+            $(".article-list-head").text("搜索分类为：《" + keyWord + "》的文章");
+        }
+        loadListArea(1);
     });
 </script>

@@ -1,4 +1,5 @@
 $(function () {
+    $(".modal-area").load(MODAL_PANELS_URL);
     /*加载导航栏*/
     $('.common-header').load(NAVIGATOR_PANEL_URL);
     /*加载文章列表*/

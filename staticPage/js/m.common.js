@@ -14,3 +14,7 @@ const CLASSIFY_LABELS_PANEL_URL = "../html/classify_labels_panel.html";
 const ARTICLE_LABELS_PANEL_URL = "../html/article_labels_panel.html";
 /*底部备案信息面板页*/
 const BOTTOM_PANEL_URL = '../html/bottom.html';
+/**/
+const MODAL_PANELS_URL = '../html/modal_panels.html';
+
+let visitor_login_info = null;

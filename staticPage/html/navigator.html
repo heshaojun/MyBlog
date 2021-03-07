@@ -25,7 +25,7 @@
                             </div>
                         </li>
                         <li class="nav-item" id="_main-nav-btn-2">
-                            <a class="nav-link" href="process.html">网站建设</a>
+                            <a class="nav-link" href="search.html">网站建设</a>
                         </li>
                         <li class="nav-item" id="_main-nav-btn-3">
                             <a class="nav-link" href="board.html">留言板</a>
@@ -34,9 +34,14 @@
                             <a class="nav-link" href="aboutme.html">关于我</a>
                         </li>
                     </ul>
-                    <form class="form-inline my-2 my-lg-0" id="_main-nav-search">
-                        <input class="form-control mr-sm-2" type="search" placeholder="搜索文章" aria-label="Search">
-                        <button class="btn btn-outline-success my-2 my-sm-0 active" type="submit">搜索
+                    <form class="form-inline my-2 my-lg-0" id="_main-nav-search"
+                          action="home.html">
+                        <input class="form-control mr-sm-2" type="search" placeholder="搜索文章" aria-label="Search"
+                               id="_main-nav-search_kw"
+                               name="keyWord">
+                        <input type="search" hidden name="listType" value="search">
+                        <button class="btn btn-outline-success my-2 my-sm-0 active" type="button"
+                                onclick="keywordCheck()">搜索
                         </button>
                     </form>
                 </div>
@@ -46,4 +51,13 @@
 </div>
 <script>
     $('#_main-nav-btn-' + $('.common-header').attr("nav-active-index")).addClass('active');
+
+    function keywordCheck() {
+        let kw = $('#_main-nav-search_kw').val();
+        if (kw && kw.replaceAll(" ") != "") {
+            $('#_main-nav-search').submit();
+        } else {
+            return false;
+        }
+    }
 </script>

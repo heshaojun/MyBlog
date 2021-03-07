@@ -31,8 +31,8 @@
     </div>
 </div>
 <script>
-    let listType = $('.content-right').attr('list-type');
-    let keyWord = $('.content-right').attr('key-word');
+    let listType = pageParams['listType'] ? pageParams['listType'] : "all";
+    let keyWord = pageParams['keyWord'] ? pageParams['keyWord'] : "null";
     let scope = 'all';
     let pageSize = 10;
     let orderBy = 'time';
@@ -51,7 +51,7 @@
         for (let i in list) {
             let item = list[i];
             html += '        <div class="d-block w-100 border-bottom article-list-item pt-2 pb-1"\n' +
-                '             onclick="window.location.href=\'/article/detail/' + item['id'] + '\'">\n' +
+                '             onclick="window.location.href=\'detail.html?articleId=' + item['id'] + '\'">\n' +
                 '            <div class="pl-1 pr-1 d-flex ">\n' +
                 '                <div class="small  align-self-center text-danger pr-2">' + item['type'] + '</div>\n' +
                 '                <div class="font-weight-bolder">' + item['title'] + '</div>\n' +
@@ -139,7 +139,6 @@
             html += '<li class="page-item"><a class="page-link" onclick="homeListPageNext()">下一页</a></li>\n';
         }
         html += '</ul>';
-        console.log(html);
         $(selector).html(html);
     }
 

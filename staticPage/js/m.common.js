@@ -17,6 +17,19 @@ const BOTTOM_PANEL_URL = '../html/bottom.html';
 /*留言板面板路径*/
 const MSG_BOARD_PANEL_URL = '../html/msg_board_panel.html';
 /*关于我面板路径*/
-const ABOUT_ME_PANEL_URL = '../html/about_me_panel.html';
+const ABOUT_ME_PANEL_URL = '../html/aboutme_panel.html';
 /**/
 const MODAL_PANELS_URL = '../html/modal_panels.html';
+
+let pageParams = {}
+
+$(function () {
+    let params = window.location.search.substring(1).split("&");
+    for (let index in params) {
+        let param = params[index]
+        if (param.includes("=")) {
+            let kv = param.split("=", 2)
+            pageParams[kv[0]] = kv[1]
+        }
+    }
+});

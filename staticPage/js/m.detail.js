@@ -1,4 +1,3 @@
-let articleId = null;
 $(function () {
     $(".modal-area").load(MODAL_PANELS_URL);
     /*加载导航栏*/
@@ -7,9 +6,8 @@ $(function () {
     $.get(SITE_INFO_PANEL_URL, function (data, status) {
         $('.site-info-area').append(data);
     });
-    articleId = $('.content-right').attr("article-id");
     /*加载文章内容*/
-    $('.content-right .content-right-area').load("../html/article_detail_panel.html?articleId=" + articleId);
+    $('.content-right .content-right-area').load("../html/article_detail_panel.html");
     /*加载最新文章列表面板*/
     $.get(NEWEST_ARTICLE_PANEL_URL, function (data, status) {
         $('.newest-article-area').append(data);

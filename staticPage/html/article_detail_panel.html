@@ -25,6 +25,7 @@
     showdown.setFlavor('github');
     let converter = new showdown.Converter({noHeaderId: true});
     let visitor_login_info = getUserInfo();
+    let articleId = pageParams['articleId'];
     $(function () {
         $.get("../data/article_info.json?articleId=" + articleId, function (data) {
             let html = '<h3>文章不存在！</h3>';
@@ -50,13 +51,13 @@
                     '                ' + context + '\n' +
                     '            </div>\n' +
                     '            <div class="pt-3 pb-2">\n' +
-                    '                <div>上一篇：' + (info['pre'] ? ("<a href='/article/detail/" + info['pre']['id'] + "'>" + info['pre']['title'] + "</a>") : "没有了！") + '</div>\n' +
-                    '                <div class="float-lg-right clearfix">下一篇：' + (info['next'] ? ("<a href='/article/detail/" + info['next']['id'] + "'>" + info['next']['title'] + "</a>") : "没有了！") + '</div>\n' +
+                    '                <div>上一篇：' + (info['pre'] ? ("<a href='detail.html?articleId=" + info['pre']['id'] + "'>" + info['pre']['title'] + "</a>") : "没有了！") + '</div>\n' +
+                    '                <div class="float-lg-right clearfix">下一篇：' + (info['next'] ? ("<a href='detail.html?articleId=" + info['next']['id'] + "'>" + info['next']['title'] + "</a>") : "没有了！") + '</div>\n' +
                     '            </div>';
             }
             $('.article-content-area').html(html);
         });
-        $.get("../data/comments.json", function (data, status) {
+        $.get("../data/comments.json?articleId=" + articleId, function (data, status) {
             if (data.code == 200) {
                 let html = "";
                 let commentsInfo = data.data;

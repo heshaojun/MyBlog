@@ -7,7 +7,7 @@
     </div>
 </div>
 <script>
-    $.get('../data/classify_labels.json', function (data, status) {
+    $.get(CLASSIFY_LABELS_DATA_URL, function (data, status) {
         if (status == 'success') {
             if (data.code == 200) {
                 let labels = data.data;

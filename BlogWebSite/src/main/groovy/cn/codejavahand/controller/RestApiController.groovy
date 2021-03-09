@@ -1,6 +1,7 @@
 package cn.codejavahand.controller
 
 import cn.codejavahand.common.RestResp
+import cn.codejavahand.service.ClassifyLabelsService
 import cn.codejavahand.service.HottestArticleService
 import cn.codejavahand.service.NewestArticleService
 import cn.codejavahand.service.SiteInfoService
@@ -24,6 +25,8 @@ class RestApiController {
     private NewestArticleService newestArticleService
     @Autowired
     private HottestArticleService hottestArticleService
+    @Autowired
+    private ClassifyLabelsService classifyLabelsService
 
     @GetMapping("siteInfo")
     RestResp siteInfo() {
@@ -38,5 +41,10 @@ class RestApiController {
     @GetMapping("hottestArticles")
     RestResp hottestArticles() {
         hottestArticleService.doService()
+    }
+
+    @GetMapping("classifyLabels")
+    RestResp classifyLabels() {
+        classifyLabelsService.doService()
     }
 }

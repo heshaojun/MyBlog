@@ -13,6 +13,7 @@ const HOTTEST_ARTICLE_PANEL_URL = "../html/hottest_article_panel.html";
 const HOTTEST_ARTICLE_DATA_URL = "/rest/hottestArticles"
 /*文章分类标签面板地址*/
 const CLASSIFY_LABELS_PANEL_URL = "../html/classify_labels_panel.html";
+const CLASSIFY_LABELS_DATA_URL = '/rest/classifyLabels';
 /*文章标签面板地址*/
 const ARTICLE_LABELS_PANEL_URL = "../html/article_labels_panel.html";
 /*底部备案信息面板页*/

@@ -6,7 +6,7 @@
     <div class="card-body p-2 mb-3" id="newest-article-list"></div>
 </div>
 <script>
-    $.get('../data/newest_articles.json', function (data, status) {
+    $.get(NEWEST_ARTICLE_DATA_URL, function (data, status) {
         if (status == 'success') {
             if (data.code == 200) {
                 let list = data.data;

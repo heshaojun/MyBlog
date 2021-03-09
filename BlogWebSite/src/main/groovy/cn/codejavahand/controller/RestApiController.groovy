@@ -1,6 +1,11 @@
 package cn.codejavahand.controller
 
 import cn.codejavahand.common.RestResp
+import cn.codejavahand.service.HottestArticleService
+import cn.codejavahand.service.NewestArticleService
+import cn.codejavahand.service.SiteInfoService
+import org.springframework.beans.factory.annotation.Autowired
+import org.springframework.web.bind.annotation.GetMapping
 import org.springframework.web.bind.annotation.RequestMapping
 import org.springframework.web.bind.annotation.RestController
 
@@ -13,6 +18,25 @@ import org.springframework.web.bind.annotation.RestController
 @RestController
 @RequestMapping("rest")
 class RestApiController {
+    @Autowired
+    private SiteInfoService siteInfoService
+    @Autowired
+    private NewestArticleService newestArticleService
+    @Autowired
+    private HottestArticleService hottestArticleService
 
-    RestResp articleList() {}
+    @GetMapping("siteInfo")
+    RestResp siteInfo() {
+        siteInfoService.doService();
+    }
+
+    @GetMapping("newestArticles")
+    RestResp newestArticles() {
+        newestArticleService.doService()
+    }
+
+    @GetMapping("hottestArticles")
+    RestResp hottestArticles() {
+        hottestArticleService.doService()
+    }
 }

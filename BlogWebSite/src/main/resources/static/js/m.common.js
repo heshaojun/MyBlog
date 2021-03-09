@@ -4,10 +4,13 @@ const NAVIGATOR_PANEL_URL = "../html/navigator.html";
 const ARTICLE_LIST_PANEL_URL = "../html/article_list_panel.html";
 /*网站统计信息面板地址*/
 const SITE_INFO_PANEL_URL = "../html/site_info_panel.html";
+const SITE_INFO_DATA_URL = "/rest/siteInfo"
 /*最新文章 列表面板地址*/
 const NEWEST_ARTICLE_PANEL_URL = "../html/newest_article_panel.html";
+const NEWEST_ARTICLE_DATA_URL = "/rest/newestArticles"
 /*最热文章信息面板地址*/
 const HOTTEST_ARTICLE_PANEL_URL = "../html/hottest_article_panel.html";
+const HOTTEST_ARTICLE_DATA_URL = "/rest/hottestArticles"
 /*文章分类标签面板地址*/
 const CLASSIFY_LABELS_PANEL_URL = "../html/classify_labels_panel.html";
 /*文章标签面板地址*/

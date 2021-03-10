@@ -7,7 +7,7 @@ $(function () {
         $('.site-info-area').append(data);
     });
     /*加载文章内容*/
-    $('.content-right .content-right-area').load("../html/article_detail_panel.html");
+    $('.content-right .content-right-area').load(ARTICLE_DETAIL_PANEL_URL);
     /*加载最新文章列表面板*/
     $.get(NEWEST_ARTICLE_PANEL_URL, function (data, status) {
         $('.newest-article-area').append(data);
@@ -28,6 +28,7 @@ $(function () {
     $.get(BOTTOM_PANEL_URL, function (data, status) {
         $('.common-footer').append(data);
     });
+    /*左右两栏滚动优化*/
     $(window).scroll(function () {
         if ($('.content-left-area').height() > $(window).height()) {
             $('.content-left-area').css('top', $(window).height() - $('.content-left-area').height());

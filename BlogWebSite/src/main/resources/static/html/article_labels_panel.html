@@ -8,7 +8,7 @@
     </div>
 </div>
 <script>
-    $.get('../data/article_labels.json', function (data, status) {
+    $.get(ARTICLE_LABELS_DATA_URL, function (data, status) {
         if (status == 'success') {
             if (data.code == 200) {
                 let labels = data.data

@@ -27,7 +27,7 @@
     let visitor_login_info = getUserInfo();
     let articleId = pageParams['articleId'];
     $(function () {
-        $.get("../data/article_info.json?articleId=" + articleId, function (data) {
+        $.get(ARTICLE_DETAIL_DATA_URL + "?articleId=" + articleId, function (data) {
             let html = '<h3>文章不存在！</h3>';
             if (data.code == 200) {
                 let info = data.data;
@@ -57,7 +57,7 @@
             }
             $('.article-content-area').html(html);
         });
-        $.get("../data/comments.json?articleId=" + articleId, function (data, status) {
+        $.get(ARTICLE_COMMENTS_DATA_URL + "?articleId=" + articleId, function (data) {
             if (data.code == 200) {
                 let html = "";
                 let commentsInfo = data.data;

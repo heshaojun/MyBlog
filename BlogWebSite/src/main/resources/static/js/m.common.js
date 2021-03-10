@@ -16,8 +16,13 @@ const CLASSIFY_LABELS_PANEL_URL = "../html/classify_labels_panel.html";
 const CLASSIFY_LABELS_DATA_URL = '/rest/classifyLabels';
 /*文章标签面板地址*/
 const ARTICLE_LABELS_PANEL_URL = "../html/article_labels_panel.html";
+const ARTICLE_LABELS_DATA_URL = "/rest/articleLabels";
 /*底部备案信息面板页*/
 const BOTTOM_PANEL_URL = '../html/bottom.html';
+/*文章详情面板路径*/
+const ARTICLE_DETAIL_PANEL_URL = "../html/article_detail_panel.html";
+const ARTICLE_DETAIL_DATA_URL = "/rest/articleDetail"
+const ARTICLE_COMMENTS_DATA_URL = "/rest/comments"
 /*留言板面板路径*/
 const MSG_BOARD_PANEL_URL = '../html/msg_board_panel.html';
 /*关于我面板路径*/

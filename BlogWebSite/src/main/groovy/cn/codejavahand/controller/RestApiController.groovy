@@ -1,6 +1,9 @@
 package cn.codejavahand.controller
 
 import cn.codejavahand.common.RestResp
+import cn.codejavahand.service.ArticleCommentsService
+import cn.codejavahand.service.ArticleDetailService
+import cn.codejavahand.service.ArticleLabelsService
 import cn.codejavahand.service.ClassifyLabelsService
 import cn.codejavahand.service.HottestArticleService
 import cn.codejavahand.service.NewestArticleService
@@ -27,24 +30,53 @@ class RestApiController {
     private HottestArticleService hottestArticleService
     @Autowired
     private ClassifyLabelsService classifyLabelsService
+    @Autowired
+    private ArticleLabelsService articleLabelsService
+    @Autowired
+    private ArticleDetailService articleDetailService
+    @Autowired
+    private ArticleCommentsService articleCommentsService
+    /*网站统计信息*/
 
     @GetMapping("siteInfo")
     RestResp siteInfo() {
         siteInfoService.doService();
     }
+    /*最新文章*/
 
     @GetMapping("newestArticles")
     RestResp newestArticles() {
         newestArticleService.doService()
     }
+    /*热门文章*/
 
     @GetMapping("hottestArticles")
     RestResp hottestArticles() {
         hottestArticleService.doService()
     }
+    /*文章分类标签*/
 
     @GetMapping("classifyLabels")
     RestResp classifyLabels() {
         classifyLabelsService.doService()
+    }
+    /*文章标签*/
+
+    @GetMapping("articleLabels")
+    RestResp articleLabels() {
+        articleLabelsService.doService()
+    }
+
+    /*文章详情*/
+
+    @GetMapping("articleDetail")
+    RestResp articleDetail(String articleId) {
+        articleDetailService.doService articleId
+    }
+    /*文章评论信息*/
+
+    @GetMapping("comments")
+    RestResp articleComments(String articleId) {
+        articleCommentsService.doService articleId
     }
 }

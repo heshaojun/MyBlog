@@ -164,7 +164,7 @@
     }
 
     function loadListArea(page) {
-        $.get('../data/article_list.json?scope=' + scope + '&page=' + page + '&pageSize=' + pageSize + '&type=' + listType + '&keyword=' + keyWord + '&order=' + orderBy, function (data) {
+        $.get(ARTICLE_LIST_DATA_URL + '?scope=' + scope + '&page=' + page + '&pageSize=' + pageSize + '&type=' + listType + '&keyword=' + keyWord + '&order=' + orderBy, function (data) {
             if (data.code == 200) {
                 let respData = data['data'];
                 let list = respData['list'];

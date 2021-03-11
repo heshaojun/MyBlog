@@ -1,6 +1,6 @@
 package cn.codejavahand.service
 
-import cn.codejavahand.bo.ArticleInfoBo
+import cn.codejavahand.bo.ArticleDetailBo
 import cn.codejavahand.common.RestResp
 import org.springframework.stereotype.Service
 
@@ -15,27 +15,26 @@ class ArticleDetailService {
     }
 
 
-    private static RestResp tempData() {
-        RestResp resp = new RestResp()
-        resp.with {
-            code = 200
-            msg = "ok"
-            data = {
-                title = "文章标题"
-                summery = "文章摘要"
-                type = "blog"
-                time = "2020-10-30 10:44:23"
-                visit = "10万+"
-                comment = "100"
-            } as ArticleInfoBo
-        }
-        resp
+    private RestResp tempData() {
+        [
+                code: 200,
+                msg : "ok",
+                data: [
+                        title  : "文章标题",
+                        summery: "文章概要",
+                        type   : "文章类型",
+                        time   : "2020-10-30 10:44:23",
+                        visit  : "10万+",
+                        comment: "100",
+                        id     : "dfdsfjsdl",
+                        context: "<!--- SPDX-License-Identifier: Apache-2.0 -->\n\n<p align=\"center\"><img width=\"40%\" src=\"docs/ONNX_logo_main.png\" /></p>\n\n[![Build Status](https://img.shields.io/azure-devops/build/onnx-pipelines/onnx/7?label=Linux&logo=Azure-Pipelines)](https://dev.azure.com/onnx-pipelines/onnx/_build/latest?definitionId=7&branchName=master)\n[![Build Status](https://img.shields.io/azure-devops/build/onnx-pipelines/onnx/5?label=Windows&logo=Azure-Pipelines)](https://dev.azure.com/onnx-pipelines/onnx/_build/latest?definitionId=5&branchName=master)\n[![Build Status](https://img.shields.io/azure-devops/build/onnx-pipelines/onnx/6?label=MacOS&logo=Azure-Pipelines)](https://dev.azure.com/onnx-pipelines/onnx\n# Contribute\nONNX is a [community project](community). ",
+                        pre    : [
+                                title: "dsfdsf",
+                                id   : "sdfdsfads",
+                        ] as ArticleDetailBo.Child,
+                        next   : null,
+                ] as ArticleDetailBo
+        ] as RestResp
     }
 
-    public static void main(String[] args) {
-        print(tempData())
-        new FileWriter('output.txt').withWriter { writer ->
-            writer.write('a')
-        }
-    }
 }

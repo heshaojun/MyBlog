@@ -4,7 +4,7 @@ package cn.codejavahand.bo
  * @author heshaojun* @date 2021/3/10
  * @description TODO
  */
-class ArticleInfoBo {
+class ArticleDetailBo {
     String title
     String summery
     String type

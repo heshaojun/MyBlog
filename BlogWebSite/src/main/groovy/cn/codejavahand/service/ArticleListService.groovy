@@ -2,6 +2,7 @@ package cn.codejavahand.service
 
 import cn.codejavahand.bo.ArticleListBo
 import cn.codejavahand.common.RestResp
+import cn.codejavahand.dao.po.ArticleInfoPo
 import org.springframework.stereotype.Service
 
 /**
@@ -32,7 +33,7 @@ class ArticleListService {
                                         visit  : "1万+",
                                         comment: "100",
                                         id     : "dsfdsaf34343"
-                                ] as ArticleListBo.ArticleInfo,
+                                ] as ArticleInfoPo,
                                 [
                                         title  : "文章标题1",
                                         summery: "文章简介1",
@@ -41,7 +42,7 @@ class ArticleListService {
                                         visit  : "1万+",
                                         comment: "100",
                                         id     : "dsfdsaf34343"
-                                ] as ArticleListBo.ArticleInfo,
+                                ] as ArticleInfoPo,
                                 [
                                         title  : "文章标题1",
                                         summery: "文章简介1",
@@ -50,7 +51,7 @@ class ArticleListService {
                                         visit  : "1万+",
                                         comment: "100",
                                         id     : "dsfdsaf34343"
-                                ] as ArticleListBo.ArticleInfo,
+                                ] as ArticleInfoPo,
                                 [
                                         title  : "文章标题1",
                                         summery: "文章简介1",
@@ -59,7 +60,7 @@ class ArticleListService {
                                         visit  : "1万+",
                                         comment: "100",
                                         id     : "dsfdsaf34343"
-                                ] as ArticleListBo.ArticleInfo,
+                                ] as ArticleInfoPo,
                                 [
                                         title  : "文章标题1",
                                         summery: "文章简介1",
@@ -68,8 +69,8 @@ class ArticleListService {
                                         visit  : "1万+",
                                         comment: "100",
                                         id     : "dsfdsaf34343"
-                                ] as ArticleListBo.ArticleInfo
-                        ] as ArrayList<ArticleListBo.ArticleInfo>
+                                ] as ArticleInfoPo
+                        ] as ArrayList<ArticleInfoPo>
                 ] as ArticleListBo
         ] as RestResp
     }

@@ -2,6 +2,7 @@ package cn.codejavahand.service
 
 import cn.codejavahand.bo.ArticleDetailBo
 import cn.codejavahand.common.RestResp
+import cn.codejavahand.dao.po.ArticleDetailPo
 import org.springframework.stereotype.Service
 
 /**
@@ -31,7 +32,7 @@ class ArticleDetailService {
                         pre    : [
                                 title: "dsfdsf",
                                 id   : "sdfdsfads",
-                        ] as ArticleDetailBo.Child,
+                        ] as ArticleDetailPo.Child,
                         next   : null,
                 ] as ArticleDetailBo
         ] as RestResp

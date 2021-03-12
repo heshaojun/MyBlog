@@ -4,11 +4,23 @@ import cn.codejavahand.dao.po.ArticleCommentPo
 
 /**
  * @author heshaojun* @date 2021/3/11
- * @description TODO
+ * @description TODO 文章评论数据操作接口
  */
 interface IArticleCommentRepo extends ICacheCleaner {
-    List<ArticleCommentPo> getCommentsByArticleId(String articleId)
+    /**
+     * 通过文章id获取文章评论数据
+     * @param articleId 文章id
+     * @param num 最大评论数
+     * @return
+     */
+    List<ArticleCommentPo> getCommentsByArticleId(String articleId, int num)
 
-    boolean addArticleComment(String articleId, ArticleCommentPo)
+    /**
+     *  添加文章评论数据
+     * @param articleId
+     * @param ArticleCommentPo
+     * @return
+     */
+    boolean addArticleComment(String articleId, ArticleCommentPo articleCommentPo)
 
 }

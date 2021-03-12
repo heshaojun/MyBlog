@@ -54,8 +54,5 @@ class ArticleVisitRepo implements IVisitCountRepo {
     @Override
     void cleanCache() {
     }
-
-    public static void main(String[] args) {
-        print new File("E:\\workspace\\github\\MyBlog").list([accept: { dir, name -> dir.exists() && !name.startsWith(".") && (new File("${dir.absolutePath}/$name").isDirectory()) }] as FilenameFilter)
-    }
+    
 }

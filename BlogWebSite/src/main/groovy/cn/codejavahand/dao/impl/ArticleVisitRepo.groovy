@@ -6,6 +6,7 @@ import cn.codejavahand.dao.IArticleIdListRepo
 import cn.codejavahand.dao.IVisitCountRepo
 import groovy.util.logging.Log
 import org.springframework.beans.factory.annotation.Autowired
+import org.springframework.cache.annotation.CacheEvict
 import org.springframework.cache.annotation.CachePut
 import org.springframework.stereotype.Service
 
@@ -21,6 +22,8 @@ class ArticleVisitRepo implements IVisitCountRepo {
     @Autowired
     private IArticleIdListRepo articleIdListRepo
 
+    @CacheEvict(cacheNames = ["articleVisitCount"], key = "#articleId")
+    @CacheEvict(cacheNames = ["allArticleVisitCount"])
     @Override
     boolean setArticleVisitCount(String articleId, int count) {
         return false
@@ -41,6 +44,7 @@ class ArticleVisitRepo implements IVisitCountRepo {
         count
     }
 
+    @CachePut(cacheNames = ["allArticleVisitCount"])
     @Override
     int getAllArticleVisitCount() {
         int count = 0
@@ -51,8 +55,9 @@ class ArticleVisitRepo implements IVisitCountRepo {
         count
     }
 
+
     @Override
     void cleanCache() {
     }
-    
+
 }

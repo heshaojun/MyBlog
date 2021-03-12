@@ -9,10 +9,13 @@ import cn.codejavahand.service.ClassifyLabelsService
 import cn.codejavahand.service.HottestArticleService
 import cn.codejavahand.service.NewestArticleService
 import cn.codejavahand.service.SiteInfoService
+import groovy.util.logging.Log
+import groovy.util.logging.Log4j
 import org.springframework.beans.factory.annotation.Autowired
 import org.springframework.web.bind.annotation.GetMapping
 import org.springframework.web.bind.annotation.PostMapping
 import org.springframework.web.bind.annotation.RequestMapping
+import org.springframework.web.bind.annotation.RequestParam
 import org.springframework.web.bind.annotation.RestController
 
 /**
@@ -23,6 +26,7 @@ import org.springframework.web.bind.annotation.RestController
  */
 @RestController
 @RequestMapping("rest")
+@Log
 class RestApiController {
     @Autowired
     private SiteInfoService siteInfoService
@@ -87,7 +91,17 @@ class RestApiController {
     /*文章列表--分页*/
 
     @GetMapping("articleList")
-    RestResp articleList(String scope, Integer page, Integer pageSize,String type,String keyword,String order) {
-        articleListService.doService(scope,page,pageSize,type,keyword,order)
+    RestResp articleList(@RequestParam(name = "scope", defaultValue = "all") String scope, @RequestParam(name = "page", defaultValue = "1") Integer page, @RequestParam(name = "pageSize", defaultValue = "10") Integer pageSize, @RequestParam(name = "type", defaultValue = "all") String type, @RequestParam(name = "keyword", defaultValue = "") String keyword, @RequestParam(name = "order", defaultValue = "time") String order) {
+        log.info "request data: scope=$scope, page=$page, pageSize=$pageSize, type=$type, keyword=$keyword, order=$order"
+        articleListService.doService(scope, page, pageSize, type, keyword, order)
+    }
+
+    @PostMapping("commitComment")
+    RestResp commitComment() {
+
+    }
+
+    @PostMapping("getUserInfo")
+    RestResp getUserInfo() {
     }
 }

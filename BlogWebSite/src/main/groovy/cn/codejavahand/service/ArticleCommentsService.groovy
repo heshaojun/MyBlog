@@ -4,7 +4,9 @@ package cn.codejavahand.service
 import cn.codejavahand.common.RestResp
 import cn.codejavahand.config.SysConfig
 import cn.codejavahand.dao.IArticleCommentRepo
+import cn.codejavahand.dao.IArticleInfoRepo
 import cn.codejavahand.dao.po.ArticleCommentPo
+import cn.codejavahand.dao.po.ArticleInfoPo
 import org.springframework.beans.factory.annotation.Autowired
 import org.springframework.stereotype.Service
 
@@ -20,7 +22,8 @@ class ArticleCommentsService {
     private SysConfig sysConfig
     @Autowired
     private IArticleCommentRepo articleCommentRepo
-
+    @Autowired
+    private IArticleInfoRepo articleInfoRepo
 
     RestResp doService(String articleId) {
         RestResp resp = [
@@ -28,15 +31,18 @@ class ArticleCommentsService {
                 msg : "fail"
         ] as RestResp
         try {
-            SimpleDateFormat dateFormat = new SimpleDateFormat("yyyy-MM-dd HH:mm:ss")
-            List<ArticleCommentPo> data = new ArrayList<>()
-            List<ArticleCommentPo> articleCommentPos = articleCommentRepo.getCommentsByArticleId(articleId)
-            if (articleCommentPos && articleCommentPos.size() > 0) {
-                articleCommentPos.sort { t1, t2 -> dateFormat.parse(t2.time).getTime() - dateFormat.parse(t1.time).getTime() }
-                if (articleCommentPos.size() <= sysConfig.commentsListNum) {
-                    data = articleCommentPos
-                } else {
-                    data = articleCommentPos.subList(0, sysConfig.commentsListNum)
+            ArticleInfoPo articleInfo = articleInfoRepo.getArticleInfoById(articleId)
+            if (articleInfo) {
+                SimpleDateFormat dateFormat = new SimpleDateFormat("yyyy-MM-dd HH:mm:ss")
+                List<ArticleCommentPo> data = new ArrayList<>()
+                List<ArticleCommentPo> articleCommentPos = articleCommentRepo.getCommentsByArticleId(articleId)
+                if (articleCommentPos && articleCommentPos.size() > 0) {
+                    articleCommentPos.sort { t1, t2 -> dateFormat.parse(t2.time).getTime() - dateFormat.parse(t1.time).getTime() }
+                    if (articleCommentPos.size() <= sysConfig.commentsListNum) {
+                        data = articleCommentPos
+                    } else {
+                        data = articleCommentPos.subList(0, sysConfig.commentsListNum)
+                    }
                 }
             }
             resp = [code: 200, msg: "ok", data: data] as RestResp

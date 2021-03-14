@@ -6,13 +6,13 @@
     <div class="w-100 border-bottom d-flex flex-wrap">
         <ul class="nav">
             <li class="nav-item active">
-                <a class="btn" onclick="articleScopeClick(this)">全部</a>
+                <a class="btn" onclick="articleScopeClick(this)" article-type="all">全部</a>
             </li>
             <li class="nav-item">
-                <a class="btn" onclick="articleScopeClick(this)">博客</a>
+                <a class="btn" onclick="articleScopeClick(this)" article-type="blog">博客</a>
             </li>
             <li class="nav-item">
-                <a class="btn" onclick="articleScopeClick(this)">笔记</a>
+                <a class="btn" onclick="articleScopeClick(this)" article-type="note">笔记</a>
             </li>
         </ul>
         <div class="align-self-center small ml-auto list-order-by">
@@ -32,16 +32,19 @@
 </div>
 <script>
     let listType = pageParams['listType'] ? pageParams['listType'] : "all";
-    let keyWord = pageParams['keyWord'] ? pageParams['keyWord'] : "null";
+    let keyWord = pageParams['keyWord'] ? pageParams['keyWord'] : "_";
     let scope = 'all';
     let pageSize = 10;
     let orderBy = 'time';
+    let pageIndex = 1;
 
     /*文章类型按钮点击函数*/
     function articleScopeClick(selector) {
         if (!$(selector).parent(".nav-item").hasClass("active")) {
             $($($(selector).parents('ul.nav')[0]).find(".nav-item.active")[0]).removeClass("active");
             $(selector).parent().addClass("active");
+            scope = $(selector).attr("article-type");
+            loadListArea();
         }
     }
 
@@ -140,19 +143,24 @@
         }
         html += '</ul>';
         $(selector).html(html);
+        pageIndex = index
     }
 
     /*翻页函数*/
     function homeListPageChange(selector) {
-
+        pageIndex = parseInt($(selector).text());
+        if (pageIndex < 0) pageIndex = 1
+        loadListArea()
     }
 
     function homeListPagePre() {
-
+        if (pageIndex > 1) pageIndex--
+        loadListArea()
     }
 
     function homeListPageNext() {
-
+        pageIndex++
+        loadListArea()
     }
 
     function orderByChange(selector) {
@@ -160,14 +168,18 @@
         orderBy = $(selector).attr("data-toggle");
         $($(selector).parent()).find('a.tab-item.selected').removeClass('selected');
         $(selector).addClass('selected');
-        loadListArea(1);
+        loadListArea();
     }
 
-    function loadListArea(page) {
-        $.get(ARTICLE_LIST_DATA_URL + '?scope=' + scope + '&page=' + page + '&pageSize=' + pageSize + '&type=' + listType + '&keyword=' + keyWord + '&order=' + orderBy, function (data) {
+    function loadListArea() {
+        $.get(ARTICLE_LIST_DATA_URL + '?scope=' + scope + '&page=' + pageIndex + '&pageSize=' + pageSize + '&type=' + listType + '&keyword=' + keyWord + '&order=' + orderBy, function (data) {
             if (data.code == 200) {
                 let respData = data['data'];
                 let list = respData['list'];
+                if (list.length <= 0) {
+                    $(".article-list-area").html("<div class='text-center'><h4>没有相关文章</h4></div>");
+                    return
+                }
                 loadArticleList(".article-list-area", list);
                 loadPagination(".article-list-pagination-bar", respData);
             }
@@ -180,14 +192,14 @@
             $(".article-list-head").hide();
         }
         if (listType == 'label') {
-            $(".article-list-head").text("标签为：《" + keyWord + "》的文章");
+            $(".article-list-head").text("标签为：\"" + decodeURI(keyWord) + "\"的文章");
         }
         if (listType == 'search') {
-            $(".article-list-head").text("搜索关键字：《" + keyWord + "》的文章");
+            $(".article-list-head").text("搜索关键字：\"" + decodeURI(keyWord) + "\"的文章");
         }
         if (listType == 'classify') {
-            $(".article-list-head").text("搜索分类为：《" + keyWord + "》的文章");
+            $(".article-list-head").text("搜索分类为：\"" + decodeURI(keyWord) + "\"的文章");
         }
-        loadListArea(1);
+        loadListArea();
     });
 </script>

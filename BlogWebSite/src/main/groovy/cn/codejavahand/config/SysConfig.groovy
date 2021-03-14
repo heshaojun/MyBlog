@@ -12,7 +12,17 @@ import org.springframework.context.annotation.Configuration
 @ConfigurationProperties(prefix = "sys.config")
 @EnableCaching
 class SysConfig {
+    /*文章存储路径*/
     String articleStoragePath
+    /*网站数据存储路径*/
     String siteDataStorePath
+    /*文章评论展示数量*/
+    Integer commentsListNum = 10
+    /*最新文章展示数量*/
+    Integer newestArticleListNum = 8
+    /*最热文章展示数量*/
+    Integer hottestArticleListNum = 8
+    /*单页最大数*/
+    Integer maxPageItemSize = 30
 
 }

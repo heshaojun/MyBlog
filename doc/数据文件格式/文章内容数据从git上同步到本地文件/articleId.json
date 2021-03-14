@@ -4,6 +4,7 @@
 "time":"文章创建时间",
 "summery":"文章",
 "type":"文章类型blog|note",
+"context":"文本内容",
 "articleLabel":"文章标签",
-"classifyLabels":["分类标签1"，分类标签2]
+"classifyLabels":["分类标签1","分类标签2"]
 }

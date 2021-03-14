@@ -5,7 +5,7 @@
         </div>
     </div>
 </div>
-<div class="card mt-2">
+<div class="card mt-2 comments-input">
     <div class="card-body">
         <div class="w-100">
             <span class="text-black-50" id="visitor-login-info">没有登录</span>
@@ -29,7 +29,9 @@
     $(function () {
         $.get(ARTICLE_DETAIL_DATA_URL + "?articleId=" + articleId, function (data) {
             let html = '<h3>文章不存在！</h3>';
+            $(".comments-input").hide();
             if (data.code == 200) {
+                $(".comments-input").show();
                 let info = data.data;
                 let context = converter.makeHtml(info['context']);
                 html = '<h4>' + info['title'] + '</h4>\n' +
@@ -43,11 +45,11 @@
                     '                    <div class="pr-3 align-self-center">' + info['visit'] + '</div>\n' +
                     '                    <div class="align-self-center"><img style="height: 20px" src="../img/comments_icon.png"></div>\n' +
                     '                    <div class="pr-3 align-self-center">' + info['comment'] + '</div>\n' +
-                    '                    <div class="pr-3 align-self-center">文章地址：wwww.codejavahand.cn/article/detail/' + articleId + '</div>\n' +
-                    '                    <div class="pr-3 align-self-center font-italic">注：本站博客多为原创，如有装载请表明出处。</div>\n' +
+                    '                    <div class="pr-3 align-self-center">文章地址：wwww.codejavahand.cn/detail.html?articleId=' + articleId + '</div>\n' +
+                    '                    <div class="pr-3 align-self-center font-italic">注：本站博客多为原创，如有转载请表明出处。</div>\n' +
                     '                </div>\n' +
                     '            </div>\n' +
-                    '            <div class="pt-2">\n' +
+                    '            <div class="pt-2 border-bottom">\n' +
                     '                ' + context + '\n' +
                     '            </div>\n' +
                     '            <div class="pt-3 pb-2">\n' +
@@ -74,14 +76,16 @@
                         '            <div>\n' +
                         '                <img style="height: 25px" src="' + img_url + '">\n' +
                         '                <span class="align-items-center text-black-50 comment-user-name"></span>\n' +
-                        '                <span class="comment-item-comment"></span>\n' +
+                        '                <div class="comment-item-comment"></div>\n' +
                         '                <div class="small float-right text-black-50">' + commentInfo['time'] + '</div>\n' +
                         '            </div>\n' + '</div>\n';
                     let item_selector = $(item);
                     console.log($(item_selector).html());
                     $(item_selector).find('.comment-user-name').text(commentInfo['name'] + "：");
                     $(item_selector).find('.comment-item-comment').text(commentInfo['comment']);
-                    html += '        <div class="card p-2 mb-1">\n' + $(item_selector).html() + '        </div>\n';
+                    $(item_selector).find('.comment-item-comment').css("text-indent", "2em");
+                    $(item_selector).find('.comment-item-comment').css("color", "rgba(0, 0, 0, 0.6)");
+                    html += '        <div class="card p-2">\n' + $(item_selector).html() + '        </div>\n';
                 }
                 $('.article-comments-list').html(html);
             }
@@ -98,7 +102,7 @@
 
     function popUpLogin(selector) {
         if (!visitor_login_info) {
-            alert("请登录！")
+            alert("正在建设中...")
         } else {
             $(selector).removeAttr("readonly");
         }

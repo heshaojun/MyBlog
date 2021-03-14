@@ -2,12 +2,12 @@ package cn.codejavahand.dao.impl
 
 import cn.codejavahand.common.CommConst
 import cn.codejavahand.config.SysConfig
-import cn.codejavahand.dao.IArticleIdListRepo
 import cn.codejavahand.dao.IVisitCountRepo
 import groovy.util.logging.Log
 import org.springframework.beans.factory.annotation.Autowired
 import org.springframework.cache.annotation.CacheEvict
 import org.springframework.cache.annotation.CachePut
+import org.springframework.cache.annotation.Cacheable
 import org.springframework.stereotype.Service
 
 /**
@@ -19,39 +19,42 @@ import org.springframework.stereotype.Service
 class ArticleVisitRepo implements IVisitCountRepo {
     @Autowired
     private SysConfig sysConfig
-    @Autowired
-    private IArticleIdListRepo articleIdListRepo
 
     @CacheEvict(cacheNames = ["articleVisitCount"], key = "#articleId")
-    @CacheEvict(cacheNames = ["allArticleVisitCount"])
     @Override
     boolean setArticleVisitCount(String articleId, int count) {
-        return false
+        try {
+            new FileOutputStream("${sysConfig.siteDataStorePath}/${articleId}/${CommConst.VISIT_COUNT_NAME}", false).with {
+                write("${count}".getBytes())
+            }
+            return true
+        } catch (Exception e) {
+            e.printStackTrace()
+            return false
+        }
     }
 
-    @CachePut(cacheNames = ["articleVisitCount"], key = "#articleId")
+    @Cacheable(cacheNames = ["articleVisitCount"], key = "#articleId")
     @Override
     int getArticleVisitCount(String articleId) {
-        File file = new File("${sysConfig.siteDataStorePath}/${articleId}/${CommConst.VISIT_COUNT_NAME}")
         int count = 0
-        if (file.exists()) {
-            new FileReader(file).with {
-                count = Integer.valueOf(readLines()[0])
+        try {
+            File file = new File("${sysConfig.siteDataStorePath}/${articleId}/${CommConst.VISIT_COUNT_NAME}")
+            if (file.exists()) {
+                new FileReader(file).with {
+                    String countStr = readLines()[0]
+                    if (countStr) {
+                        count = Integer.valueOf(countStr)
+                    }
+                }
+            } else {
+                new File("${sysConfig.siteDataStorePath}/${articleId}").mkdirs()
+                file.createNewFile()
             }
-        } else {
-            new File("${sysConfig.siteDataStorePath}/${articleId}").mkdirs()
+        } catch (Exception e) {
+            e.printStackTrace()
+            return 0
         }
-        count
-    }
-
-    @CachePut(cacheNames = ["allArticleVisitCount"])
-    @Override
-    int getAllArticleVisitCount() {
-        int count = 0
-        List<String> articleIdList = articleIdListRepo.getAllArticleList()
-        articleIdList.forEach({
-            count += getArticleVisitCount(it)
-        })
         count
     }
 

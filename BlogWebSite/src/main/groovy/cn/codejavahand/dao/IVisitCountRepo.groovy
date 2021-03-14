@@ -9,6 +9,5 @@ interface IVisitCountRepo extends ICacheCleaner {
 
     int getArticleVisitCount(String articleId)
 
-    int getAllArticleVisitCount()
 
 }

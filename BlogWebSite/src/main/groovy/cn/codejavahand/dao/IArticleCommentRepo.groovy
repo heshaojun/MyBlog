@@ -13,7 +13,7 @@ interface IArticleCommentRepo extends ICacheCleaner {
      * @param num 最大评论数
      * @return
      */
-    List<ArticleCommentPo> getCommentsByArticleId(String articleId, int num)
+    List<ArticleCommentPo> getCommentsByArticleId(String articleId)
 
     /**
      *  添加文章评论数据
@@ -22,5 +22,6 @@ interface IArticleCommentRepo extends ICacheCleaner {
      * @return
      */
     boolean addArticleComment(String articleId, ArticleCommentPo articleCommentPo)
+
 
 }

@@ -1,10 +1,12 @@
-package cn.codejavahand.dao.po
+package cn.codejavahand.bo
+
+import cn.codejavahand.dao.po.ArticleInfoPo
 
 /**
- * @author heshaojun* @date 2021/3/12
- * @description TODO 文章实体持久化对象
+ * @author heshaojun* @date 2021/3/11
+ * @description TODO
  */
-class ArticleInfoPo {
+class ArticleListItemBo {
     /*文章标题*/
     String title
     /*文章摘要*/
@@ -15,10 +17,13 @@ class ArticleInfoPo {
     String time
     /*文章ID*/
     String id
-    /*文章正文*/
-    String context
     /*文章标签*/
     String articleLabel
     /*文章分类标签*/
     List<String> classifyLabels = new ArrayList<>()
+    /*访问数量*/
+    Integer visit
+    /*评论数量*/
+    Integer comment
+
 }

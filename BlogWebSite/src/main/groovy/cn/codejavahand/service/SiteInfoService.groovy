@@ -2,6 +2,13 @@ package cn.codejavahand.service
 
 import cn.codejavahand.bo.SiteInfoBo
 import cn.codejavahand.common.RestResp
+import cn.codejavahand.dao.IArticleIdRepo
+import cn.codejavahand.dao.IArticleInfoRepo
+import cn.codejavahand.dao.IVisitCountRepo
+import cn.codejavahand.dao.po.ArticleInfoPo
+import cn.codejavahand.utils.IntegerUtils
+import groovy.util.logging.Log
+import org.springframework.beans.factory.annotation.Autowired
 import org.springframework.stereotype.Service
 
 /**
@@ -11,26 +18,108 @@ import org.springframework.stereotype.Service
  * @Description TODO
  */
 @Service
+@Log
 class SiteInfoService {
+    @Autowired
+    private IArticleIdRepo articleIdRepo
+    @Autowired
+    private IVisitCountRepo visitCountRepo
+    @Autowired
+    private IArticleInfoRepo articleInfoRepo
+
     RestResp doService() {
-        tempData()
+        log.info("获取网站统计信息")
+        [
+                code: 200,
+                msg : "ok",
+                data: [
+                        visit  : getVisitCount(),
+                        article: getArticleCount(),
+                        blog   : getBlogCount(),
+                        note   : getNoteCount(),
+                        msg    : getMsgCount()
+                ] as SiteInfoBo
+        ] as RestResp
     }
 
-    private RestResp tempData() {
-        RestResp resp = new RestResp()
-        SiteInfoBo siteInfoBo = new SiteInfoBo()
-        siteInfoBo.with {
-            visit = "10万+"
-            article = "1000"
-            blog = "500"
-            note = "500"
-            msg = "3000"
+    private String getVisitCount() {
+        String result = "0"
+        try {
+            Integer count = 0
+            List<String> allArticleId = articleIdRepo.getAllArticleList()
+            if (allArticleId) {
+                allArticleId.each {
+                    count += visitCountRepo.getArticleVisitCount("$it")
+                }
+            }
+            use(IntegerUtils) {
+                result = count.toEasyRead()
+            }
+        } catch (Exception e) {
+            e.printStackTrace()
         }
-        resp.with {
-            code = 200
-            msg = "ok"
-            data = siteInfoBo
-        }
-        resp
+        result
     }
+
+    private String getArticleCount() {
+        String result = "0"
+        try {
+            Integer count = articleIdRepo.getAllArticleList().size()
+            use(IntegerUtils) {
+                result = count.toEasyRead()
+            }
+        } catch (Exception e) {
+        }
+        result
+    }
+
+    private String getBlogCount() {
+        String result = "0"
+        try {
+            Integer count = 0
+            List<String> allArticleId = articleIdRepo.getAllArticleList()
+            allArticleId.each {
+                ArticleInfoPo articleInfoPo = articleInfoRepo.getArticleInfoById("$it")
+                if (articleInfoPo.type == "blog") {
+                    count++
+                }
+            }
+            use(IntegerUtils) {
+                result = count.toEasyRead()
+            }
+        } catch (Exception e) {
+            e.printStackTrace()
+        }
+        result
+    }
+
+    private String getNoteCount() {
+        String result = "0"
+        try {
+            Integer count = 0
+            List<String> allArticleId = articleIdRepo.getAllArticleList()
+            allArticleId.each {
+                ArticleInfoPo articleInfoPo = articleInfoRepo.getArticleInfoById("$it")
+                if (articleInfoPo.type == "note") {
+                    count++
+                }
+            }
+            use(IntegerUtils) {
+                result = count.toEasyRead()
+            }
+        } catch (Exception e) {
+            e.printStackTrace()
+        }
+        result
+    }
+
+    private String getMsgCount() {
+        String result = "0"
+        try {
+
+        } catch (Exception e) {
+        }
+        result
+    }
+
 }

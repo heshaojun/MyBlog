@@ -1,2 +1,8 @@
 server:
   port: 8090
+
+sys:
+  config:
+    articleStoragePath: /Users/heath/workspace/testFolder/test/article
+    siteDataStorePath: /Users/heath/workspace/testFolder/test/data
+    commentsListNum: 10

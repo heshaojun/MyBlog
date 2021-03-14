@@ -91,7 +91,7 @@ class RestApiController {
     /*文章列表--分页*/
 
     @GetMapping("articleList")
-    RestResp articleList(@RequestParam(name = "scope", defaultValue = "all") String scope, @RequestParam(name = "page", defaultValue = "1") Integer page, @RequestParam(name = "pageSize", defaultValue = "10") Integer pageSize, @RequestParam(name = "type", defaultValue = "all") String type, @RequestParam(name = "keyword", defaultValue = "") String keyword, @RequestParam(name = "order", defaultValue = "time") String order) {
+    RestResp articleList(@RequestParam(name = "scope", defaultValue = "all") String scope, @RequestParam(name = "page", defaultValue = "1") Integer page, @RequestParam(name = "pageSize", defaultValue = "10") Integer pageSize, @RequestParam(name = "type", defaultValue = "all") String type, @RequestParam(name = "keyword", defaultValue = "_") String keyword, @RequestParam(name = "order", defaultValue = "time") String order) {
         log.info "request data: scope=$scope, page=$page, pageSize=$pageSize, type=$type, keyword=$keyword, order=$order"
         articleListService.doService(scope, page, pageSize, type, keyword, order)
     }

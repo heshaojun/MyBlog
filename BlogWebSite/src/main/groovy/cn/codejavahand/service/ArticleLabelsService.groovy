@@ -1,6 +1,11 @@
 package cn.codejavahand.service
 
 import cn.codejavahand.common.RestResp
+import cn.codejavahand.config.SysConfig
+import cn.codejavahand.dao.IArticleIdRepo
+import cn.codejavahand.dao.IArticleInfoRepo
+import cn.codejavahand.dao.po.ArticleInfoPo
+import org.springframework.beans.factory.annotation.Autowired
 import org.springframework.stereotype.Service
 
 /**
@@ -9,25 +14,27 @@ import org.springframework.stereotype.Service
  */
 @Service
 class ArticleLabelsService {
-    RestResp doService() {
-        tempData()
-    }
+    @Autowired
+    private SysConfig sysConfig
+    @Autowired
+    private IArticleIdRepo articleIdRepo
+    @Autowired
+    private IArticleInfoRepo articleInfoRepo
 
-    private RestResp tempData() {
-        RestResp resp = new RestResp()
-        List<String> list = new ArrayList<>()
-        list.with {
-            add "spring boot"
-            add "redis"
-            add "docker"
-            add "dubbo"
-            add "mybatis"
-        }
-        resp.with {
-            code = 200
-            msg = "ok"
-            data = list
+    RestResp doService() {
+        RestResp resp = [code: 300, msg: "fail"] as RestResp
+        try {
+            Set<String> articleLabels = new HashSet<>()
+            List<String> articleIdList = articleIdRepo.getAllArticleList()
+            articleIdList.each {
+                ArticleInfoPo articleInfoPo = articleInfoRepo.getArticleInfoById("$it")
+                articleLabels.add(articleInfoPo.articleLabel)
+            }
+            resp = [code: 200, msg: "ok", data: articleLabels] as RestResp
+        } catch (Exception e) {
+            e.printStackTrace()
         }
         resp
     }
+
 }

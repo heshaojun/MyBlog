@@ -1,10 +1,10 @@
 package cn.codejavahand.dao.impl
 
 import cn.codejavahand.config.SysConfig
-import cn.codejavahand.dao.IArticleIdListRepo
+import cn.codejavahand.dao.IArticleIdRepo
 import org.springframework.beans.factory.annotation.Autowired
 import org.springframework.cache.annotation.CacheEvict
-import org.springframework.cache.annotation.CachePut
+import org.springframework.cache.annotation.Cacheable
 import org.springframework.stereotype.Service
 
 /**
@@ -12,15 +12,15 @@ import org.springframework.stereotype.Service
  * @description TODO
  */
 @Service
-class ArticleIdListRepo implements IArticleIdListRepo {
+class ArticleIdRepo implements IArticleIdRepo {
     @Autowired
     private SysConfig sysConfig
 
-    @CachePut(cacheNames = ["allArticleId"])
+    @Cacheable(cacheNames = ["allArticleId"])
     @Override
     List<String> getAllArticleList() {
         List<String> idList = new ArrayList<>()
-        Arrays.asList((new File(sysConfig.articleStoragePath)).list([accept: { dir, name -> dir.exists() && name.endsWith(".json") && (new File("${dir.absolutePath}/$name").isDirectory()) }] as FilenameFilter)).forEach(
+        Arrays.asList((new File(sysConfig.articleStoragePath)).list([accept: { dir, name -> dir.exists() && name.endsWith(".json") && (new File("${dir.absolutePath}/$name").isFile()) }] as FilenameFilter)).forEach(
                 {
                     idList.add(it.split(".json")[0])
                 }
@@ -32,6 +32,5 @@ class ArticleIdListRepo implements IArticleIdListRepo {
     @Override
     void cleanCache() {
     }
-
 
 }

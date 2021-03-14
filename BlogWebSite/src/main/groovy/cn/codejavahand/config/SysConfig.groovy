@@ -22,7 +22,7 @@ class SysConfig {
     Integer newestArticleListNum = 8
     /*最热文章展示数量*/
     Integer hottestArticleListNum = 8
-    /*单页最大数*/
-    Integer maxPageItemSize = 30
+    /*shell脚本路径*/
+    String shellPath = "gitpull.sh"
 
 }

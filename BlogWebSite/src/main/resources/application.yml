@@ -6,3 +6,4 @@ sys:
     articleStoragePath: /Users/heath/workspace/testFolder/test/article
     siteDataStorePath: /Users/heath/workspace/testFolder/test/data
     commentsListNum: 10
+    shellPath：gitpull.sh

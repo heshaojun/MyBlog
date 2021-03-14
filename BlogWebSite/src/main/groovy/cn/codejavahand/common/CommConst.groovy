@@ -1,7 +1,4 @@
 package cn.codejavahand.common
-
-import java.text.SimpleDateFormat
-
 /**
  * @author heshaojun* @date 2021/3/11
  * @description TODO

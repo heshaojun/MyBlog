@@ -3,7 +3,7 @@ server:
 
 sys:
   config:
-    articleStoragePath: /Users/heath/workspace/testFolder/test/article
-    siteDataStorePath: /Users/heath/workspace/testFolder/test/data
+    articleStoragePath: myArticles
+    siteDataStorePath: data
     commentsListNum: 10
-    shellPath：gitpull.sh
+    shellPath: gitpull.sh

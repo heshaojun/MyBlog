@@ -1,7 +1,6 @@
 package cn.codejavahand.service
 
-import cn.codejavahand.bo.ArticleCommentBo
-import cn.codejavahand.common.CommConst
+
 import cn.codejavahand.common.RestResp
 import cn.codejavahand.config.SysConfig
 import cn.codejavahand.dao.IArticleCommentRepo
@@ -9,7 +8,6 @@ import cn.codejavahand.dao.po.ArticleCommentPo
 import org.springframework.beans.factory.annotation.Autowired
 import org.springframework.stereotype.Service
 
-import java.lang.reflect.Array
 import java.text.SimpleDateFormat
 
 /**

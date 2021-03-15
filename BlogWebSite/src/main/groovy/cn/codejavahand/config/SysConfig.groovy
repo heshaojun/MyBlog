@@ -24,5 +24,8 @@ class SysConfig {
     Integer hottestArticleListNum = 8
     /*shell脚本路径*/
     String shellPath = "gitpull.sh"
+    /*限制域名*/
     List<String> domainNames
+    /*git webhook 密码*/
+    String webHookPasswd
 }

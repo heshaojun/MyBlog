@@ -10,3 +10,4 @@ sys:
       - www.codejavahand.cn
       - codejavahand.cn
       - 127.0.0.1
+    webHookPasswd: passwd

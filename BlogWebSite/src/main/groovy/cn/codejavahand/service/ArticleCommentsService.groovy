@@ -44,8 +44,8 @@ class ArticleCommentsService {
                         data = articleCommentPos.subList(0, sysConfig.commentsListNum)
                     }
                 }
+                resp = [code: 200, msg: "ok", data: data] as RestResp
             }
-            resp = [code: 200, msg: "ok", data: data] as RestResp
         } catch (Exception e) {
             e.printStackTrace()
         }

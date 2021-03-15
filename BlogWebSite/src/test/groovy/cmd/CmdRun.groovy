@@ -6,6 +6,10 @@ package cmd
  */
 class CmdRun {
     public static void main(String[] args) {
-      
+        def exe = ["java", "-version"].execute()
+        println(exe.waitFor())
+        println "return code: ${ exe.exitValue()}"
+        println "stderr: ${exe.err.text}"
+        println "stdout: ${exe.in.text}"
     }
 }

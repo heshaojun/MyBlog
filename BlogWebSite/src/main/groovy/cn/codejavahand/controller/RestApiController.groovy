@@ -7,6 +7,8 @@ import javafx.geometry.Pos
 import org.springframework.beans.factory.annotation.Autowired
 import org.springframework.web.bind.annotation.*
 
+import javax.servlet.http.HttpServletRequest
+
 /**
  * @Author shaojun he
  * @Mail keepword_heshaojun@hotmail.com
@@ -34,7 +36,7 @@ class RestApiController {
     @Autowired
     private ArticleListService articleListService
     @Autowired
-    private
+    private GitPushHookService gitPushHookService
     /*网站统计信息*/
 
     @GetMapping("siteInfo")
@@ -97,7 +99,7 @@ class RestApiController {
     }
 
     @PostMapping("gitUpdate")
-    void gitUpdate() {
-
+    void gitUpdate(HttpServletRequest request) {
+        gitPushHookService.doService(request)
     }
 }

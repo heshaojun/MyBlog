@@ -51,7 +51,6 @@ class GitPushHookService {
                 log.info("接收到的数据为json")
                 byte[] jsonData = org.apache.commons.io.IOUtils.toByteArray request.getInputStream()
                 String jsonStr = new String(jsonData)
-                log.info("json 数据为：$jsonStr")
                 JSONObject json = JSONObject.parseObject(jsonStr)
                 if (json.getString("password") == sysConfig.webHookPasswd) result = true
             } else {

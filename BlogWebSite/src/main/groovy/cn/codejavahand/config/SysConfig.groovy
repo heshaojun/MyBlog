@@ -24,5 +24,5 @@ class SysConfig {
     Integer hottestArticleListNum = 8
     /*shell脚本路径*/
     String shellPath = "gitpull.sh"
-
+    List<String> domainNames
 }

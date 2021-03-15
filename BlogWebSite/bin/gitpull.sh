@@ -1,4 +1,4 @@
 #!/bin/bash
-cd myArticles
+cd blogArticles
 git reset --force
 git pull

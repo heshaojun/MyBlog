@@ -1,9 +1,12 @@
 server:
-  port: 8090
-
+  port: 80
 sys:
   config:
-    articleStoragePath: myArticles
+    articleStoragePath: blogArticles
     siteDataStorePath: data
     commentsListNum: 10
     shellPath: gitpull.sh
+    domainNames:
+      - www.codejavahand.cn
+      - codejavahand.cn
+      - 127.0.0.1

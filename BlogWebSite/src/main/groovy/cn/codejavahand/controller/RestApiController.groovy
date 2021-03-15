@@ -3,6 +3,7 @@ package cn.codejavahand.controller
 import cn.codejavahand.common.RestResp
 import cn.codejavahand.service.*
 import groovy.util.logging.Log
+import javafx.geometry.Pos
 import org.springframework.beans.factory.annotation.Autowired
 import org.springframework.web.bind.annotation.*
 
@@ -32,6 +33,8 @@ class RestApiController {
     private ArticleCommentsService articleCommentsService
     @Autowired
     private ArticleListService articleListService
+    @Autowired
+    private
     /*网站统计信息*/
 
     @GetMapping("siteInfo")
@@ -91,5 +94,10 @@ class RestApiController {
 
     @PostMapping("getUserInfo")
     RestResp getUserInfo() {
+    }
+
+    @PostMapping("gitUpdate")
+    void gitUpdate() {
+
     }
 }

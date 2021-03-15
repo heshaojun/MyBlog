@@ -41,9 +41,9 @@
                     '                         style="border-radius: 2px;padding: 0 2px 0 2px;">' + info['type'] + '\n' +
                     '                    </div>\n' +
                     '                    <div class="pr-3 align-self-center">' + info['time'] + '</div>\n' +
-                    '                    <div class="align-self-center"><img style="height: 20px" src="../img/watch_icon.png"></div>\n' +
+                    '                    <div class="align-self-center"><img style="height: 20px" src="https://gitee.com/heshaojun/blogResources/raw/master/site/img/watch_icon.png"></div>\n' +
                     '                    <div class="pr-3 align-self-center">' + info['visit'] + '</div>\n' +
-                    '                    <div class="align-self-center"><img style="height: 20px" src="../img/comments_icon.png"></div>\n' +
+                    '                    <div class="align-self-center"><img style="height: 20px" src="https://gitee.com/heshaojun/blogResources/raw/master/site/img/comments_icon.png"></div>\n' +
                     '                    <div class="pr-3 align-self-center">' + info['comment'] + '</div>\n' +
                     '                    <div class="pr-3 align-self-center">文章地址：wwww.codejavahand.cn/detail.html?articleId=' + articleId + '</div>\n' +
                     '                    <div class="pr-3 align-self-center font-italic">注：本站博客多为原创，如有转载请表明出处。</div>\n' +
@@ -64,13 +64,13 @@
                 let html = "";
                 let commentsInfo = data.data;
                 for (let index in commentsInfo) {
-                    let img_url = '../img/wechat.png';
+                    let img_url = 'https://gitee.com/heshaojun/blogResources/raw/master/site/img/wechat.png';
                     let commentInfo = commentsInfo[index];
                     if (commentInfo['type'] == 'qq') {
-                        img_url = '../img/qq.png';
+                        img_url = 'https://gitee.com/heshaojun/blogResources/raw/master/site/img/qq.png';
                     }
                     if (commentInfo['type'] == 'github') {
-                        img_url = '../img/github.png';
+                        img_url = 'https://gitee.com/heshaojun/blogResources/raw/master/site/img/github.png';
                     }
                     let item = '<div>\n' +
                         '            <div>\n' +

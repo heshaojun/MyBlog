@@ -118,13 +118,13 @@
         let html = "";
         let msgsInfo = data;
         for (let index in msgsInfo) {
-            let img_url = '../img/wechat.png';
+            let img_url = 'https://gitee.com/heshaojun/blogResources/raw/master/site/img/wechat.png';
             let msgInfo = msgsInfo[index];
             if (msgInfo['type'] == 'qq') {
-                img_url = '../img/qq.png';
+                img_url = 'https://gitee.com/heshaojun/blogResources/raw/master/site/img/qq.png';
             }
             if (msgInfo['type'] == 'github') {
-                img_url = '../img/github.png';
+                img_url = 'https://gitee.com/heshaojun/blogResources/raw/master/site/img/github.png';
             }
             let item = '<div>\n' +
                 '            <div>\n' +

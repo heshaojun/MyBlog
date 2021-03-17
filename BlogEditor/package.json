@@ -1,0 +1,16 @@
+{
+  "name": "BlogEditor",
+  "version": "1.0.0",
+  "main": "main.js",
+  "scripts": {
+    "start": "electron ."
+  },
+  "author": {
+    "email": "masker_zero@163.com",
+    "name": "shaojun he",
+    "url": "www.codejavahand.cn"
+  },
+  "dependencies": {
+    "electron": "^12.0.1"
+  }
+}

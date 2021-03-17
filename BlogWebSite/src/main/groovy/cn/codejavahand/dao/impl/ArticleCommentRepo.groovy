@@ -23,11 +23,11 @@ class ArticleCommentRepo implements IArticleCommentRepo {
     @Override
     List<ArticleCommentPo> getCommentsByArticleId(String articleId) {
         List<ArticleCommentPo> commentPos = new ArrayList<>()
-        File path = new File("${sysConfig.siteDataStorePath}/${articleId}/${CommConst.ARTICLE_COMMENT_PATH}")
+        File path = new File("${sysConfig.articleDataStorePath}/${articleId}/${CommConst.ARTICLE_COMMENT_PATH}")
         if (path.exists()) {
             Arrays.asList(path.list([accept: { dir, name -> dir.exists() && name.endsWith(".json") && (new File("${dir.absolutePath}/$name").isFile()) }] as FilenameFilter)).forEach(
                     {
-                        new FileReader("${sysConfig.siteDataStorePath}/${articleId}/${CommConst.ARTICLE_COMMENT_PATH}/${it}").with {
+                        new FileReader("${sysConfig.articleDataStorePath}/${articleId}/${CommConst.ARTICLE_COMMENT_PATH}/${it}").with {
                             commentPos.add(JSONObject.parseObject(readLines().join(""), ArticleCommentPo.class))
                         }
                     }

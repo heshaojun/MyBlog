@@ -102,4 +102,10 @@ class RestApiController {
     void gitUpdate(HttpServletRequest request) {
         gitPushHookService.doService(request)
     }
+
+    @GetMapping("msgs")
+    RestResp getMsg(@RequestParam(name = "page", defaultValue = "1") Integer page, @RequestParam(name = "pageSize", defaultValue = "10") Integer pageSize) {
+
+    }
+
 }

@@ -23,7 +23,7 @@ class ArticleVisitRepo implements IVisitCountRepo {
     @Override
     boolean setArticleVisitCount(String articleId, int count) {
         try {
-            new FileOutputStream("${sysConfig.siteDataStorePath}/${articleId}/${CommConst.VISIT_COUNT_NAME}", false).with {
+            new FileOutputStream("${sysConfig.articleDataStorePath}/${articleId}/${CommConst.VISIT_COUNT_NAME}", false).with {
                 write("${count}".getBytes())
             }
             return true
@@ -38,7 +38,7 @@ class ArticleVisitRepo implements IVisitCountRepo {
     int getArticleVisitCount(String articleId) {
         int count = 0
         try {
-            File file = new File("${sysConfig.siteDataStorePath}/${articleId}/${CommConst.VISIT_COUNT_NAME}")
+            File file = new File("${sysConfig.articleDataStorePath}/${articleId}/${CommConst.VISIT_COUNT_NAME}")
             if (file.exists()) {
                 new FileReader(file).with {
                     String countStr = readLines()[0]
@@ -47,7 +47,7 @@ class ArticleVisitRepo implements IVisitCountRepo {
                     }
                 }
             } else {
-                new File("${sysConfig.siteDataStorePath}/${articleId}").mkdirs()
+                new File("${sysConfig.articleDataStorePath}/${articleId}").mkdirs()
                 file.createNewFile()
             }
         } catch (Exception e) {

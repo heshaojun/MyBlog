@@ -14,8 +14,10 @@ import org.springframework.context.annotation.Configuration
 class SysConfig {
     /*文章存储路径*/
     String articleStoragePath
-    /*网站数据存储路径*/
-    String siteDataStorePath
+    /*网站文章相关数据存储路径*/
+    String articleDataStorePath
+    /*网站留言数据存储路径*/
+    String siteMsgsDataStorePath
     /*文章评论展示数量*/
     Integer commentsListNum = 10
     /*最新文章展示数量*/

@@ -43,18 +43,19 @@ class SMenu {
 ipcMain.on("fetch-config-data", function (event, args) {
     let configPath
     if (isWind) {
-        configPath = __dirname + "\\config\\config.json"
+        configPath = process.cwd() + "\\config.json"
     } else {
-        configPath = __dirname + "/config/config.json"
+        configPath = process.cwd() + "/config.json"
     }
-    if (fs.existsSync(configPath)) {
-        console.log("文件存在!");
-        event.returnValue = "文件存在";
-    } else {
-        console.log("文件不存在！");
-        event.returnValue = "文件不存在";
-    }
-
+    fs.readFile(configPath, function (err, data) {
+        if (err) {
+            console.log("Reading configuration file err " + err.message)
+            event.returnValue = {}
+        } else {
+            let dataStr = data.toString();
+            event.returnValue = eval(dataStr);
+        }
+    });
 });
 
 module.exports = {

@@ -50,10 +50,10 @@ ipcMain.on("fetch-config-data", function (event, args) {
     fs.readFile(configPath, function (err, data) {
         if (err) {
             console.log("Reading configuration file err " + err.message)
-            event.returnValue = {}
+            event.returnValue = {};
         } else {
             let dataStr = data.toString();
-            event.returnValue = eval(dataStr);
+            event.returnValue = eval('(' + dataStr + ')');
         }
     });
 });

@@ -50,6 +50,7 @@ class ArticleVisitRecordService {
                         int count = visitCountRepo.getArticleVisitCount("$k")
                         count += v
                         visitCountRepo.setArticleVisitCount("$k", count)
+                        visitCountRepo = 0
                     } catch (Exception e) {
                         e.printStackTrace()
                     }

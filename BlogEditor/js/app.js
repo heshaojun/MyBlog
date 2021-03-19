@@ -1,4 +1,4 @@
-const {app, Menu, ipcMain} = require('electron')
+const {app, Menu, ipcMain, dialog} = require('electron')
 const isMac = process.platform === "darwin";
 const isWind = process.platform === "win32";
 const path = require('path');
@@ -40,6 +40,7 @@ class SMenu {
     }
 }
 
+/*监听-配置文件数据获取*/
 ipcMain.on("fetch-config-data", function (event, args) {
     let configPath
     if (isWind) {
@@ -53,9 +54,29 @@ ipcMain.on("fetch-config-data", function (event, args) {
             event.returnValue = {};
         } else {
             let dataStr = data.toString();
-            event.returnValue = eval('(' + dataStr + ')');
+            if (dataStr && dataStr != "") {
+                event.returnValue = eval('(' + dataStr + ')');
+            }
         }
     });
+});
+
+ipcMain.handle("select-folder", function (event, args) {
+    let result = dialog.showOpenDialogSync({
+        title: "选择文件夹",
+        properties: ["openDirectory"]
+    });
+    return result[0];
+});
+ipcMain.handle("save-config-data", function (event, args) {
+    let configPath
+    if (isWind) {
+        configPath = process.cwd() + "\\config.json"
+    } else {
+        configPath = process.cwd() + "/config.json"
+    }
+    fs.writeFileSync(configPath, args);
+    return "ok";
 });
 
 module.exports = {

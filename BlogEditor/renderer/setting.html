@@ -12,9 +12,23 @@
 </div>
 <hr>
 <div class="container">
-
-    <div class="col">
-        <label>sdf</label><input type="file"name="sdfds"/>
+    <div class="d-flex flex-row justify-content-center mt-4">
+        <div class="p-0 pr-1">数据文件路径:</div>
+        <input class="col-7 p-0" id="root-path-selector" readonly type="text" placeholder="选择文件夹"/>
+        <div class="col-2"></div>
+    </div>
+    <div class="d-flex flex-row justify-content-center mt-4">
+        <div class="p-0 pr-1">静态资源仓库:</div>
+        <input class="col-7 p-0" id="resource-git-storage" type="text" placeholder="静态资源的git仓库地址"/>
+        <div class="col-2"></div>
+    </div>
+    <div class="d-flex flex-row justify-content-center mt-4">
+        <div class="p-0 pr-1">文章资源仓库:</div>
+        <input class="col-7 p-0" id="article-git-storage" type="text" placeholder="文章资源的git仓库地址"/>
+        <div class="col-2"></div>
+    </div>
+    <div class="justify-content-center text-center mt-4">
+        <button class="btn bg-primary w-50" onclick="saveConfigData()">保存</button>
     </div>
 </div>
 </body>

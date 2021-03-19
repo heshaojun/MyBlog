@@ -3,8 +3,24 @@
 <head>
     <meta charset="UTF-8">
     <title>个人博客编辑器</title>
+    <link rel="stylesheet" type="text/css" href="./css/material/easyui.css">
+    <link rel="stylesheet" type="text/css" href="./css/icon.css">
+    <script type="text/javascript" src="./js/jquery-3.5.1.js"></script>
+    <script>
+        window.$ = window.jQuery = require("./js/jquery-3.5.1")
+    </script>
+    <script type="text/javascript" src="./js/jquery.easyui.min.js"></script>
 </head>
 <body>
-
+<div style="position:absolute;;width:100%;height:100%;background-color: #007bff">
+    <div class="easyui-layout" style="height: 100%;width: 100%">
+        <div data-options="region:'north',split:false" style="height:50px;" id=""></div>
+        <div id="west-panel" data-options="region:'west',split:true" style="width:20%;">
+            <ul class="easyui-tree"></ul>
+        </div>
+        <div data-options="region:'center'"></div>
+    </div>
+</div>
 </body>
+<script type="text/javascript" src="./js/editor.js"></script>
 </html>

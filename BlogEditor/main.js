@@ -3,8 +3,8 @@ const {SMenu} = require('./js/app');
 let mainWindow
 app.on("ready", function () {
     mainWindow = new BrowserWindow({
-        width: 800,
-        height: 600,
+        width: 600,
+        height: 450,
         webPreferences: {
             nodeIntegration: true,
             contextIsolation: false,

@@ -2,34 +2,41 @@ $(function () {
     $("#west-panel").panel({
         title: "目录",
         onOpen: function () {
-            let html = loadArticleTree([{
-                "classify": "类型1",
-                "list": [
-                    {"title": "文章1", "id": "12234354"}
-                ]
-            }, {}, {}], "accordion_")
-            if (html) {
-                $("#west-panel").html(html);
-            }
-            $("#west-panel.easyui-tree").tree({});
+            loadArticleTree(".easyui-tree");
         },
         tools: [
             {
                 iconCls: 'icon-reload',
                 handler: function (event) {
-                    alert("reload");
-                    $("#west-panel").panel('reload')
+                    loadArticleTree(".easyui-tree");
                 }
             }
         ]
     });
-    $("#west-panel").panel('refresh');
 });
 
 function loadArticleTree(selector) {
-    selector
+    $(selector).tree({
+        onDblClick: function (node) {
+            if (node['id']) {
+                openArticle(node['id']);
+            }
+        },
+        data: [{
+            text: "分类1",
+            state: 'closed',
+            children: [
+                {
+                    id: "123243",
+                    text: "文章222"
+                }
+            ]
+        }, {
+            text: "分类2"
+        }]
+    })
 };
 
 function openArticle(articleId) {
-
+    console.log("打开文章")
 }

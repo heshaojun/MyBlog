@@ -6,6 +6,7 @@ const {path} = require('path');
 $(function () {
     loadConfig().then((config) => {
         if (config) {
+            ipcRenderer.send("ready-data", config);
             console.log("跟路径存在，显示入口");
             $('#context-area').html('    <div class="center d-table w-100 text-center" id="nav-list" hidden>\n' +
                 '        <div class="p-3"><a href="javascript:ipcRenderer.send(\'load-page\', \'./renderer/setting.html\')">修改配置</a></div>\n' +
@@ -29,6 +30,7 @@ async function loadConfig() {
     }
     return result
 }
+
 function ternTo() {
-    
+
 }

@@ -3,6 +3,7 @@ const isMac = process.platform === "darwin";
 const isWind = process.platform === "win32";
 const path = require('path');
 const fs = require('fs');
+const exec = require('child_process').exec;
 
 /*构建自定义菜单*/
 class SMenu {
@@ -13,7 +14,10 @@ class SMenu {
                 submenu: [
                     {label: "关于", role: 'about'},
                     {type: 'separator'},
-                    {label: "退出", role: 'quit'}
+                    {label: "退出", role: 'quit'},
+                    {label: "复制", accelerator: "CmdOrCtrl+C", selector: "copy:"},
+                    {label: "粘贴", accelerator: "CmdOrCtrl+V", selector: "paste:"},
+                    {label: "全选", role: 'selectAll'}
                 ]
             }, {
                 label: '文件',
@@ -78,6 +82,43 @@ ipcMain.handle("save-config-data", function (event, args) {
     fs.writeFileSync(configPath, args);
     return "ok";
 });
+
+function readConfigSync() {
+    let configPath
+    if (isWind) {
+        configPath = process.cwd() + "\\config.json"
+    } else {
+        configPath = process.cwd() + "/config.json"
+    }
+    let buffer = fs.readFileSync(configPath);
+    let dataStr = buffer.toString();
+    if (dataStr && dataStr != "") {
+        return eval('(' + dataStr + ')');
+    } else {
+        return null
+    }
+}
+
+ipcMain.on('ready-data', function (event, args) {
+    event.returnValue = readyData(args);
+});
+
+function readyData(config) {
+    let root = config['dataPath'];
+    if (!fs.existsSync(root)) {
+        console.log("创建文件夹");
+        fs.mkdirSync(root);
+    }
+    console.log("git操作!");
+    let articlePath = String(config['articleGit']).split("/")[4].split(".git")[0];
+    articlePath = root + "/" + articlePath;
+    if (!fs.existsSync(articlePath)) {
+        console.log("克隆项目");
+        exec("git clone " + config['articleGit'], {cwd: root}, function (error, stdout, stderr) {
+        });
+    }
+    console.log(articlePath);
+}
 
 module.exports = {
     SMenu: SMenu

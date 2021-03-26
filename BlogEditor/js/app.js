@@ -3,7 +3,7 @@ const isMac = process.platform === "darwin";
 const isWind = process.platform === "win32";
 const path = require('path');
 const fs = require('fs');
-const exec = require('child_process').exec;
+const childProcess = require('child_process');
 
 /*构建自定义菜单*/
 class SMenu {
@@ -110,14 +110,93 @@ function readyData(config) {
         fs.mkdirSync(root);
     }
     console.log("git操作!");
-    let articlePath = String(config['articleGit']).split("/")[4].split(".git")[0];
-    articlePath = root + "/" + articlePath;
+    let articleRelPath = String(config['articleGit']).split("/")[4].split(".git")[0];
+    let articlePath = root + "/" + articleRelPath;
     if (!fs.existsSync(articlePath)) {
         console.log("克隆项目");
-        exec("git clone " + config['articleGit'], {cwd: root}, function (error, stdout, stderr) {
+        childProcess.exec("git clone " + config['articleGit'], {cwd: root}, function (error, stdout, stderr) {
+            if (error) {
+                console.log("克隆资源失败!");
+                console.log(error.toString());
+            } else {
+                return true;
+            }
+        });
+    } else {
+        childProcess.exec("git status", {cwd: articlePath}, async function (error, stdout, stderr) {
+            if (error) {
+                console.log("git 状态异常");
+                console.log(error.toString());
+                childProcess.exec("rm -rf " + articleRelPath, {cwd: root}, function (error, stdout, stderr) {
+                    if (error) {
+                        console.log("删除文件失败！");
+                        console.log(error.toString());
+                        return false;
+                    } else {
+                        return readyData(config);
+                    }
+                });
+            } else {
+                return true;
+            }
         });
     }
     console.log(articlePath);
+}
+
+ipcMain.on("commit-and-push", function (event, args) {
+    let config = readConfigSync();
+    let path = config['dataPath'] + "/" + String(config['articleGit']).split("/")[4].split(".git")[0];
+    childProcess.exec("git commit -m '" + args + "'", {cwd: path}, function (error, stdout, stderr) {
+        if (error) {
+            event.returnValue = {status: false, comment: "提交数据失败！", msg: error.toString()};
+            console.log("提交代码失败！")
+        } else {
+            childProcess.exec("git push", {cwd: path}, function (error, stdout, stderr) {
+                if (error) {
+                    event.returnValue = {status: false, comment: "上传数据失败！", msg: error.toString()}
+                } else {
+                    event.returnValue = {status: true}
+                }
+            });
+        }
+    });
+});
+
+ipcMain.on("fetch-article-menu", function (event, args) {
+    console.log("开始获取目录");
+    let config = readConfigSync();
+    let path = config['dataPath'] + "/" + String(config['articleGit']).split("/")[4].split(".git")[0];
+    let dirs = fs.readdirSync(path);
+    let menuData = {};
+    dirs.forEach(function (file, index) {
+        if (file.endsWith(".json")) {
+            let info = fs.statSync(path + "/" + file);
+            if (info.isFile()) {
+                let articleId = file.split(".json")[0];
+                let articleInfo = readArticleData(articleId);
+                if (articleInfo) {
+                    if (!menuData[articleInfo['articleLabel']]) {
+                        menuData[articleInfo['articleLabel']] = [];
+                    }
+                    menuData[articleInfo['articleLabel']].push({text: articleInfo['title'], id: articleInfo['id']});
+                }
+            }
+        }
+    });
+    event.returnValue = menuData;
+});
+
+function readArticleData(articleId) {
+    let config = readConfigSync();
+    let path = config['dataPath'] + "/" + String(config['articleGit']).split("/")[4].split(".git")[0];
+    let buffer = fs.readFileSync(path + "/" + articleId + ".json");
+    let articleStr = buffer.toString();
+    if (articleStr && articleStr != "") {
+        return eval('(' + articleStr + ')');
+    } else {
+        return null
+    }
 }
 
 module.exports = {

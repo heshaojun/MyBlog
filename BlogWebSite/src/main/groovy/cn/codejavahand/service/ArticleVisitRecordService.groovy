@@ -23,7 +23,7 @@ class ArticleVisitRecordService {
     private IVisitCountRepo visitCountRepo
 
     void record(String articleId) {
-        log.info("有新的反问$articleId")
+        log.info("有新的访问$articleId")
         synchronized (object) {
             try {
                 if (recorder.containsKey(articleId)) {
@@ -38,7 +38,7 @@ class ArticleVisitRecordService {
         }
     }
 
-    @Scheduled(cron = "0 0/30 * * * ?")
+    @Scheduled(cron = "0 0/1 * * * ?")
     void storeUp() {
         synchronized (object) {
             log.info("开始存储文章的访问记录数据")
@@ -47,10 +47,13 @@ class ArticleVisitRecordService {
                 k, v ->
                     try {
                         stored.add("$k")
+                        log.info("开始获取文章原有访问量")
                         int count = visitCountRepo.getArticleVisitCount("$k")
+                        log.info("文章$k 原有访问量 $count")
                         count += v
+                        log.info("开始存储文章最新反问量")
                         visitCountRepo.setArticleVisitCount("$k", count)
-                        visitCountRepo = 0
+                        log.info("存储访问记录$k  $count")
                     } catch (Exception e) {
                         e.printStackTrace()
                     }
@@ -62,6 +65,7 @@ class ArticleVisitRecordService {
                     e.printStackTrace()
                 }
             }
+            log.info("数据存储完成！")
         }
     }
 

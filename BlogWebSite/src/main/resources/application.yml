@@ -4,7 +4,7 @@ sys:
   config:
     articleStoragePath: blogArticles
     siteMsgsDataStorePath: data/msgs
-    siteDataStorePath: data/article
+    articleDataStorePath: data/article
     commentsListNum: 10
     shellPath: gitpull.sh
     domainNames:

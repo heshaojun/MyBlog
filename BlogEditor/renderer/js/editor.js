@@ -102,7 +102,7 @@ function saveChange(title, id) {
 
 function closeSafely(title, id) {
     if (ifArticleChanged(title, id)) {
-        
+
     }
     return true
 }

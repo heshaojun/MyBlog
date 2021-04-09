@@ -17,7 +17,7 @@ import org.springframework.stereotype.Service
 @Log
 @EnableScheduling
 class ArticleVisitRecordService {
-    private Map<String, Integer> recorder = new Hashtable<>()
+    private static final Map<String, Integer> recorder = new Hashtable<>()
     private static final Object object = new Object()
     @Autowired
     private IVisitCountRepo visitCountRepo
@@ -38,34 +38,28 @@ class ArticleVisitRecordService {
         }
     }
 
-    @Scheduled(cron = "0 0/1 * * * ?")
+    @Scheduled(cron = "0 0/30  * * * ?")
     void storeUp() {
         synchronized (object) {
             log.info("开始存储文章的访问记录数据")
-            Set<String> stored = new HashSet<>()
             recorder.each {
                 k, v ->
                     try {
-                        stored.add("$k")
-                        log.info("开始获取文章原有访问量")
-                        int count = visitCountRepo.getArticleVisitCount("$k")
-                        log.info("文章$k 原有访问量 $count")
-                        count += v
-                        log.info("开始存储文章最新反问量")
-                        visitCountRepo.setArticleVisitCount("$k", count)
-                        log.info("存储访问记录$k  $count")
+                        if (v > 0) {
+                            int count = visitCountRepo.getArticleVisitCount("$k")
+                            count += v
+                            visitCountRepo.setArticleVisitCount("$k", count)
+                        }
                     } catch (Exception e) {
                         e.printStackTrace()
                     }
+
             }
-            stored.each {
-                try {
-                    recorder.remove("$it")
-                } catch (Exception e) {
-                    e.printStackTrace()
-                }
+            try {
+                recorder.clear()
+            } catch (Exception e) {
+                e.printStackTrace()
             }
-            log.info("数据存储完成！")
         }
     }
 

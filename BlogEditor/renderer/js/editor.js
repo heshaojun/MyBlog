@@ -72,6 +72,7 @@ function openTab(id, title) {
             for (let index in $('#tables-area').tabs('tabs')) {
                 let item = $($('#tables-area').tabs('tabs')[index]).panel('options');
                 console.log(item);
+                //tab页存在，则选择tab页
                 if (item['id'] && item['title']) {
                     if (item['id'] == id && item['title'] == title) {
                         $('#tables-area').tabs('select', item['index']);
@@ -80,6 +81,7 @@ function openTab(id, title) {
                 }
             }
         }
+        //tab页不存在，添加新的tab页
         $('#tables-area').tabs('add', {
             id: id,
             title: title,

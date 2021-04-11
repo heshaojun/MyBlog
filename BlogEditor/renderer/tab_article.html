@@ -1,9 +1,28 @@
-<!DOCTYPE html>
-<html lang="en">
-<head>
-    <meta charset="UTF-8">
-</head>
-<body>
-    添加新文章
-</body>
-</html>
+<div style="position:absolute;;width:100%;height:100%;padding: 0;margin: 0">
+    <div class="easyui-layout" style="height: 100%;width: 100%;margin: 0;padding: 0">
+        <div id="west-panel" data-options="region:'west',split:true" style="width:50%;padding: 0;margin: 0">
+            <div>
+                文章标题：<input class="article-title" type="text" value="ces" disabled>
+            </div>
+            <div>
+                <span>文章类型：
+                <select>
+                    <option value="note">笔记</option>
+                    <option value="blog">博客</option>
+                </select>
+                </span>
+                <span>
+                创建时间：<input class="article-create-time" disabled value="2010-334">
+                    </span>
+            </div>
+            <div>
+                <div>文章摘要：</div>
+                <textarea class="article-summary" disabled style="width: 100% ;">dsafds</textarea>
+            </div>
+
+        </div>
+        <div data-options="region:'center'" style="padding: 0;margin: 0;border-top: none">
+
+        </div>
+    </div>
+</div>

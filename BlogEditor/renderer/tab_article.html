@@ -2,11 +2,11 @@
     <div class="easyui-layout" style="height: 100%;width: 100%;margin: 0;padding: 0">
         <div id="west-panel" data-options="region:'west',split:true" style="width:50%;padding: 0;margin: 0">
             <div>
-                文章标题：<input class="article-title" type="text" value="ces" disabled>
+                文章标题：<input class="article-title" type="text">
             </div>
             <div>
                 <span>文章类型：
-                <select>
+                <select class="article-type">
                     <option value="note">笔记</option>
                     <option value="blog">博客</option>
                 </select>
@@ -16,13 +16,29 @@
                     </span>
             </div>
             <div>
-                <div>文章摘要：</div>
-                <textarea class="article-summary" disabled style="width: 100% ;">dsafds</textarea>
+                文章标签： <input class="article-label" type="text">
             </div>
+            文章分类标签：
+            <div class="article-classify">
+                <span class="label-area">
 
+               </span>
+                <button onclick="addClassify(this)">添加</button>
+            </div>
+            <div>
+                <div>文章摘要：</div>
+                <textarea class="article-summary" rows="4" style="width: 100% ;"></textarea>
+            </div>
+            <button style="width: 100%;background-color: #7abaff" onclick="">保存</button>
+            <hr>
+            <div>文章内容</div>
+            <textarea class="article-detail" style="width: 100%;height: 100%;background-color: #f5fffa"
+                      oninput="articleContextChanged(this)" onchange="articleContextChanged(this)"></textarea>
         </div>
         <div data-options="region:'center'" style="padding: 0;margin: 0;border-top: none">
+            <div class="article-show-area">
 
+            </div>
         </div>
     </div>
 </div>

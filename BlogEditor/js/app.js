@@ -186,13 +186,19 @@ ipcMain.on("fetch-article-menu", function (event, args) {
     });
     event.returnValue = menuData;
 });
+ipcMain.on("read-article", function (event, args) {
+    console.log("读取文章：" + args);
+    event.returnValue = readArticleData(args);
+});
 
 function readArticleData(articleId) {
+    console.log("kais " + articleId);
     let config = readConfigSync();
     let path = config['dataPath'] + "/" + String(config['articleGit']).split("/")[4].split(".git")[0];
     let buffer = fs.readFileSync(path + "/" + articleId + ".json");
     let articleStr = buffer.toString();
     if (articleStr && articleStr != "") {
+        console.log("读取到文章信息：" + articleStr)
         return eval('(' + articleStr + ')');
     } else {
         return null

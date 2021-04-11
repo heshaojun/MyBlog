@@ -38,7 +38,7 @@ class ArticleVisitRecordService {
         }
     }
 
-    @Scheduled(cron = "0 0/30  * * * ?")
+    @Scheduled(cron = "0 0/30 * * * ?")
     void storeUp() {
         synchronized (object) {
             log.info("开始存储文章的访问记录数据")

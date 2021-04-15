@@ -81,7 +81,6 @@ ipcMain.on("generate-id", function (event, args) {
     let dirs = fs.readdirSync(path);
     let id = 1000000;
     let ids = [];
-
     dirs.forEach(function (name, index) {
         if (name.endsWith(".json")) {
             id++;
@@ -89,10 +88,10 @@ ipcMain.on("generate-id", function (event, args) {
         }
     })
     while (true) {
-        if (ids.indexOf(id.toString()) == -1) {
-            return id.toString;
-        } else {
+        if (ids.indexOf(id.toString()) != -1) {
             id++;
+        } else {
+            break;
         }
     }
     event.returnValue = id.toString();

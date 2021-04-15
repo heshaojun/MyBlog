@@ -64,7 +64,8 @@ function loadArticleTree(selector) {
 
 //添加新编辑页面
 function addNewEditor() {
-    let id = ipcRenderer.sendSync("generate-id", null);
+    let id = ipcRenderer.sendSync("generate-id", "");
+    console.log("new id ==== " + id);
     openTab(id, "新建文章");
 }
 
@@ -170,13 +171,42 @@ function saveChange() {
     console.log(articleInDisc);
     console.log(articleDataInPage);
     if (!ifArticleEqual(articleDataInPage, articleInDisc)) {
-        ipcRenderer.sendSync("save-article", articleDataInPage);
+        if (articleValid(articleDataInPage)) {
+            ipcRenderer.sendSync("save-article", articleDataInPage);
+        }
     }
 }
 
 function articleValid(articleData) {
-    if (articleData["title"]) {
+    if (!articleData["title"]) {
+        alert("文章标题不能为空");
+        return false;
     }
+    if (!articleData["summery"]) {
+        alert("文章摘要不能为空");
+        return false;
+    }
+    if (!articleData["type"]) {
+        alert("文章类型不能为空");
+        return false;
+    }
+    if (!articleData["time"]) {
+        alert("文章创建时间不能为空");
+        return false;
+    }
+    if (!articleData["context"]) {
+        alert("文章内容不能为空");
+        return false;
+    }
+    if (!articleData["articleLabel"]) {
+        alert("文章标签不能为空");
+        return false;
+    }
+    if (!articleData["classifyLabels"]) {
+        alert("分类标签不能为空");
+        return false;
+    }
+
 }
 
 function ifArticleEqual(article1, article2) {
@@ -235,7 +265,9 @@ function closeSafely(title, index) {
         } else {
             let ifSave = window.confirm("是否保存文章《" + articleData['title'] + "》数据？");
             if (ifSave) {
-                ipcRenderer.sendSync("save-article", articleData);
+                if (articleValid(articleData)) {
+                    ipcRenderer.sendSync("save-article", articleData);
+                }
             }
             return true;
         }

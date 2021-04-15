@@ -12,8 +12,7 @@ $(function () {
             {
                 iconCls: 'icon-add',
                 handler: function () {
-                    alert("添加");
-                    showWelcome()
+                    addNewEditor()
                 }
             },
             {
@@ -63,11 +62,10 @@ function loadArticleTree(selector) {
     })
 };
 
-//展示欢迎页
-function showWelcome() {
-    $('#tables-area').tabs('add', {
-        title: "欢迎页面", content: "内容", href: "./tab_welcome.html", editable: false, closable: false
-    });
+//添加新编辑页面
+function addNewEditor() {
+    let id = ipcRenderer.sendSync("generate-id", null);
+    openTab(id, "新建文章");
 }
 
 //打开新界面
@@ -76,7 +74,6 @@ function openTab(id, title) {
         if ($('#tables-area').tabs('tabs')) {
             for (let index in $('#tables-area').tabs('tabs')) {
                 let item = $($('#tables-area').tabs('tabs')[index]).panel('options');
-                console.log(item);
                 //tab页存在，则选择tab页
                 if (item['id'] && item['title']) {
                     if (item['id'] == id && item['title'] == title) {
@@ -162,10 +159,6 @@ function articleContextChanged(selector) {
     articleRender(articleId, context);
 }
 
-//判断文章内容是否更改
-function ifArticleChanged(title, id) {
-    return true
-}
 
 //保存修改
 function saveChange() {
@@ -176,22 +169,30 @@ function saveChange() {
     console.log("---------------------")
     console.log(articleInDisc);
     console.log(articleDataInPage);
-    if (ifArticleEqual(articleDataInPage, articleInDisc)) {
-        alert("内容没有变更");
+    if (!ifArticleEqual(articleDataInPage, articleInDisc)) {
+        ipcRenderer.sendSync("save-article", articleDataInPage);
+    }
+}
+
+function articleValid(articleData) {
+    if (articleData["title"]) {
     }
 }
 
 function ifArticleEqual(article1, article2) {
-    debugger
-    if (article1["title"] != article2["title"]) return false;
-    if (article1["summery"] != article2["summery"]) return false;
-    if (article1["type"] != article2["type"]) return false;
-    if (article1["time"] != article2["time"]) return false;
-    if (article1["id"] != article2["id"]) return false;
-    if (article1["context"] != article2["context"]) return false;
-    if (article1["articleLabel"] != article2["articleLabel"]) return false;
-    if (article1["classifyLabels"].toString() != article2["classifyLabels"].toString()) return false;
-    return true
+    if (article1 && article2) {
+        if (article1["title"] != article2["title"]) return false;
+        if (article1["summery"] != article2["summery"]) return false;
+        if (article1["type"] != article2["type"]) return false;
+        if (article1["time"] != article2["time"]) return false;
+        if (article1["id"] != article2["id"]) return false;
+        if (article1["context"] != article2["context"]) return false;
+        if (article1["articleLabel"] != article2["articleLabel"]) return false;
+        if (article1["classifyLabels"].toString() != article2["classifyLabels"].toString()) return false;
+        return true
+    } else {
+        return false
+    }
 }
 
 //获取tab页中文章内容
@@ -224,12 +225,26 @@ function getDataFromTable(panel) {
 }
 
 function closeSafely(title, index) {
-    if (ifArticleChanged(title, index)) {
-        let panel = $('#tables-area').tabs('getTab', index);
+    let panel = $('#tables-area').tabs('getTab', index);
+    if (panel) {
         let articleData = getDataFromTable(panel);
-        console.log("获取页面数据-------")
+        let articleId = $(panel).attr("id");
+        let articleInDisc = ipcRenderer.sendSync("read-article", articleId);
+        if (ifArticleEqual(articleData, articleInDisc)) {
+            return true
+        } else {
+            let ifSave = window.confirm("是否保存文章《" + articleData['title'] + "》数据？");
+            if (ifSave) {
+                ipcRenderer.sendSync("save-article", articleData);
+            }
+            return true;
+        }
+    } else {
+        return true;
     }
-    return true
+    $('#tables-area').tabs('select', index);
+
+    return false;
 }
 
 function removeLabel(selector) {

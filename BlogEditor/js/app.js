@@ -30,13 +30,6 @@ class SMenu {
                                 mainWindow.loadFile('./renderer/setting.html')
                             }
                         }
-                    }, {
-                        label: "编写博客",
-                        click: async () => {
-                            if (mainWindow) {
-                                mainWindow.loadFile('./renderer/editor.html')
-                            }
-                        }
                     }
                 ]
             }
@@ -73,7 +66,7 @@ ipcMain.handle("select-folder", function (event, args) {
     return result[0];
 });
 ipcMain.handle("save-config-data", function (event, args) {
-    let configPath
+    let configPath;
     if (isWind) {
         configPath = process.cwd() + "\\config.json"
     } else {
@@ -81,6 +74,28 @@ ipcMain.handle("save-config-data", function (event, args) {
     }
     fs.writeFileSync(configPath, args);
     return "ok";
+});
+ipcMain.on("generate-id", function (event, args) {
+    let config = readConfigSync();
+    let path = config['dataPath'] + "/" + String(config['articleGit']).split("/")[4].split(".git")[0];
+    let dirs = fs.readdirSync(path);
+    let id = 1000000;
+    let ids = [];
+
+    dirs.forEach(function (name, index) {
+        if (name.endsWith(".json")) {
+            id++;
+            ids.push(name.replace(".json", ""));
+        }
+    })
+    while (true) {
+        if (ids.indexOf(id.toString()) == -1) {
+            return id.toString;
+        } else {
+            id++;
+        }
+    }
+    event.returnValue = id.toString();
 });
 
 function readConfigSync() {
@@ -164,7 +179,6 @@ ipcMain.on("commit-and-push", function (event, args) {
 });
 
 ipcMain.on("fetch-article-menu", function (event, args) {
-    console.log("开始获取目录");
     let config = readConfigSync();
     let path = config['dataPath'] + "/" + String(config['articleGit']).split("/")[4].split(".git")[0];
     let dirs = fs.readdirSync(path);
@@ -188,21 +202,39 @@ ipcMain.on("fetch-article-menu", function (event, args) {
 });
 ipcMain.on("read-article", function (event, args) {
     console.log("读取文章：" + args);
-    event.returnValue = readArticleData(args);
+    let articleStr;
+    try {
+        articleStr = readArticleData(args);
+    } catch (e) {
+        articleStr = null;
+    }
+    event.returnValue = articleStr;
 });
 
 function readArticleData(articleId) {
-    console.log("kais " + articleId);
     let config = readConfigSync();
     let path = config['dataPath'] + "/" + String(config['articleGit']).split("/")[4].split(".git")[0];
     let buffer = fs.readFileSync(path + "/" + articleId + ".json");
     let articleStr = buffer.toString();
     if (articleStr && articleStr != "") {
-        console.log("读取到文章信息：" + articleStr)
+        console.log("读取到文章信息：" + articleStr);
         return eval('(' + articleStr + ')');
     } else {
         return null
     }
+}
+
+ipcMain.on("save-article", function (event, args) {
+    saveArticle(args);
+    event.returnValue = "ok";
+});
+
+function saveArticle(articleData) {
+    let config = readConfigSync();
+    console.log(articleData);
+    let path = config['dataPath'] + "/" + String(config['articleGit']).split("/")[4].split(".git")[0];
+    fs.writeFileSync(path + "/" + articleData['id'] + ".json", JSON.stringify(articleData));
+    console.log("写入文章成功")
 }
 
 module.exports = {

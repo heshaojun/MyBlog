@@ -3,7 +3,9 @@
   "version": "1.0.0",
   "main": "main.js",
   "scripts": {
-    "start": "electron ."
+    "start": "electron .",
+    "pack": "electron-builder --dir",
+    "dist": "electron-builder"
   },
   "author": {
     "email": "masker_zero@163.com",
@@ -11,7 +13,10 @@
     "url": "www.codejavahand.cn"
   },
   "dependencies": {
-    "electron": "^12.0.1",
     "request": "^2.88.2"
+  },
+  "devDependencies": {
+    "electron-builder": "^22.10.5",
+    "electron": "^12.0.1"
   }
 }

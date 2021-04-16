@@ -11,7 +11,7 @@ app.on("ready", function () {
         }
     });
     mainWindow.loadFile("./renderer/index.html");
-    mainWindow.openDevTools();
+    //mainWindow.openDevTools();
     Menu.setApplicationMenu(SMenu.InitTemplate(mainWindow));
     ipcMain.on("load-page", function (event, args) {
         mainWindow.loadFile(args);

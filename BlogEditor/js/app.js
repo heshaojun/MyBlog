@@ -39,11 +39,17 @@ class SMenu {
 
 /*监听-配置文件数据获取*/
 ipcMain.on("fetch-config-data", function (event, args) {
-    let configPath
+    let configPath;
     if (isWind) {
-        configPath = process.cwd() + "\\config.json"
+        configPath = app.getPath("home") + "\\.blogEditor\\config.json";
+        if (!fs.existsSync(app.getPath("home") + "\\.blogEditor")) {
+            fs.mkdirSync(app.getPath("home") + "\\.blogEditor");
+        }
     } else {
-        configPath = process.cwd() + "/config.json"
+        configPath = app.getPath("home") + "/.blogEditor/config.json";
+        if (!fs.existsSync(app.getPath("home") + "/.blogEditor")) {
+            fs.mkdirSync(app.getPath("home") + "/.blogEditor");
+        }
     }
     fs.readFile(configPath, function (err, data) {
         if (err) {
@@ -68,9 +74,9 @@ ipcMain.handle("select-folder", function (event, args) {
 ipcMain.handle("save-config-data", function (event, args) {
     let configPath;
     if (isWind) {
-        configPath = process.cwd() + "\\config.json"
+        configPath = app.getPath("home") + "\\.blogEditor\\config.json"
     } else {
-        configPath = process.cwd() + "/config.json"
+        configPath = app.getPath("home") + "/.blogEditor/config.json"
     }
     fs.writeFileSync(configPath, args);
     return "ok";
@@ -100,9 +106,15 @@ ipcMain.on("generate-id", function (event, args) {
 function readConfigSync() {
     let configPath
     if (isWind) {
-        configPath = process.cwd() + "\\config.json"
+        configPath = app.getPath("home") + "\\.blogEditor\\config.json";
+        if (!fs.existsSync(app.getPath("home") + "\\.blogEditor")) {
+            fs.mkdirSync(app.getPath("home") + "\\.blogEditor");
+        }
     } else {
-        configPath = process.cwd() + "/config.json"
+        configPath = app.getPath("home") + "/.blogEditor/config.json";
+        if (!fs.existsSync(app.getPath("home") + "/.blogEditor")) {
+            fs.mkdirSync(app.getPath("home") + "/.blogEditor");
+        }
     }
     let buffer = fs.readFileSync(configPath);
     let dataStr = buffer.toString();

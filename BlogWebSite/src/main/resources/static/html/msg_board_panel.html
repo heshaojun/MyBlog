@@ -34,9 +34,10 @@
 
     function popUpLogin(selector) {
         if (!visitor_login_info) {
-            alert("请登录！")
+            alert("正在建设中...")
         } else {
             $(selector).removeAttr("readonly");
+            $("#visitor-login-info").text(visitor_login_info['name'])
         }
     }
 

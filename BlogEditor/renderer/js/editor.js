@@ -206,7 +206,7 @@ function articleValid(articleData) {
         alert("分类标签不能为空");
         return false;
     }
-
+    return true;
 }
 
 function ifArticleEqual(article1, article2) {

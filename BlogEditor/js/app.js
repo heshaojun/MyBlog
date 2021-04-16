@@ -224,6 +224,7 @@ function readArticleData(articleId) {
 }
 
 ipcMain.on("save-article", function (event, args) {
+    console.log("开始保存文章");
     saveArticle(args);
     event.returnValue = "ok";
 });

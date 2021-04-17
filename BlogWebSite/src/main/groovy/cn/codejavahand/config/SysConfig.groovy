@@ -30,4 +30,15 @@ class SysConfig {
     List<String> domainNames
     /*git webhook 密码*/
     String webHookPasswd
+    /*邮箱服务器地址*/
+    String mailHost
+    /*邮箱stmp密码*/
+    String stmpPasswd
+    /*邮箱名*/
+    String email
+    /*验证码超时时间*/
+    Long codeTimeout
+    /*邮件重新发送超时时间*/
+    Long resendTimeout
+
 }

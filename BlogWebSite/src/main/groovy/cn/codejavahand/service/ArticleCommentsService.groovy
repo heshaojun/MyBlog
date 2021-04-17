@@ -10,6 +10,9 @@ import cn.codejavahand.dao.po.ArticleInfoPo
 import org.springframework.beans.factory.annotation.Autowired
 import org.springframework.stereotype.Service
 
+import javax.mail.Session
+import javax.servlet.http.HttpServletRequest
+import javax.servlet.http.HttpSession
 import java.text.SimpleDateFormat
 
 /**
@@ -25,7 +28,7 @@ class ArticleCommentsService {
     @Autowired
     private IArticleInfoRepo articleInfoRepo
 
-    RestResp doService(String articleId) {
+    RestResp getComments(String articleId) {
         RestResp resp = [
                 code: 300,
                 msg : "fail"
@@ -52,5 +55,21 @@ class ArticleCommentsService {
         resp
     }
 
+    RestResp commitComment(HttpServletRequest request) {
+        RestResp resp = new RestResp(code: 300, msg: "fail")
+        HttpSession session = request.getSession()
+        String userName = session.getAttribute("userName")
+        if (userName != null && userName != "") {
+            String articleId = request.getParameter("articleId")
+            String comment = request.getParameter("comment")
+            if (articleId != null && articleId != "" && comment != null && comment != "" && comment.length() <= 300) {
+
+            }
+        } else {
+            resp.msg = "请登录！"
+        }
+
+
+    }
 
 }

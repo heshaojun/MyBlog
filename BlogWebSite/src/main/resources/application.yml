@@ -12,3 +12,8 @@ sys:
       - codejavahand.cn
       - 127.0.0.1
     webHookPasswd: passwdstr
+    mailHost: smtp.163.com
+    stmpPasswd: BQODYTFERHGHSOPQ
+    email: masker_zero@163.com
+    codeTimeout: 600000
+    resendTimeout: 60000

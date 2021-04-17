@@ -3,7 +3,6 @@ package cn.codejavahand.controller
 import cn.codejavahand.common.RestResp
 import cn.codejavahand.service.*
 import groovy.util.logging.Log
-import javafx.geometry.Pos
 import org.springframework.beans.factory.annotation.Autowired
 import org.springframework.web.bind.annotation.*
 
@@ -37,6 +36,12 @@ class RestApiController {
     private ArticleListService articleListService
     @Autowired
     private GitPushHookService gitPushHookService
+    @Autowired
+    private MailClientService mailClientService
+    @Autowired
+    private UserLoginService userLoginService
+    @Autowired
+    private MsgsService msgsService
     /*网站统计信息*/
 
     @GetMapping("siteInfo")
@@ -78,7 +83,7 @@ class RestApiController {
 
     @GetMapping("comments")
     RestResp articleComments(String articleId) {
-        articleCommentsService.doService articleId
+        articleCommentsService.getComments articleId
     }
 
     /*文章列表--分页*/
@@ -90,13 +95,26 @@ class RestApiController {
     }
 
     @PostMapping("commitComment")
-    RestResp commitComment() {
-
+    RestResp commitComment(HttpServletRequest request) {
+        articleCommentsService.commitComment(request)
     }
 
     @PostMapping("getUserInfo")
-    RestResp getUserInfo() {
+    RestResp getUserInfo(HttpServletRequest request) {
+        userLoginService.getUserInfo(request)
     }
+
+    @PostMapping("userLogin")
+    RestResp userLogin(HttpServletRequest request) {
+        userLoginService.login(request)
+    }
+
+    @PostMapping("fetchCode")
+    RestResp getVerificationCode(HttpServletRequest request) {
+        mailClientService.sentVerificationCode(request)
+
+    }
+    /*git webhook api*/
 
     @PostMapping("gitUpdate")
     void gitUpdate(HttpServletRequest request) {
@@ -105,7 +123,13 @@ class RestApiController {
 
     @GetMapping("msgs")
     RestResp getMsg(@RequestParam(name = "page", defaultValue = "1") Integer page, @RequestParam(name = "pageSize", defaultValue = "10") Integer pageSize) {
-
+        msgsService.getMsgs(page, pageSize)
     }
+
+    @PostMapping("commitMsg")
+    RestResp commitMsg(HttpServletRequest request) {
+        msgsService.commitMsg(request)
+    }
+
 
 }

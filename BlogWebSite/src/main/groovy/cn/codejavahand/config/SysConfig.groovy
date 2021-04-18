@@ -40,5 +40,7 @@ class SysConfig {
     Long codeTimeout
     /*邮件重新发送超时时间*/
     Long resendTimeout
+    /*单篇文章一个用户评论条数上限*/
+    Integer commentLimit
 
 }

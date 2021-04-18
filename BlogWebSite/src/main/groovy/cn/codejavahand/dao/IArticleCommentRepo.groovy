@@ -23,5 +23,11 @@ interface IArticleCommentRepo extends ICacheCleaner {
      */
     boolean addArticleComment(String articleId, ArticleCommentPo articleCommentPo)
 
+    /**
+     * 判断但前邮件评价数是否上限
+     *
+     */
+    boolean beyondLimit(String articleId, String email, int limit)
+
 
 }

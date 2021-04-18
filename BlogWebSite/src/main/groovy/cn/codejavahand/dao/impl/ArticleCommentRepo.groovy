@@ -41,7 +41,34 @@ class ArticleCommentRepo implements IArticleCommentRepo {
     @CacheEvict(cacheNames = ["articleComments"], key = "#articleId")
     @Override
     boolean addArticleComment(String articleId, ArticleCommentPo articleCommentPo) {
-        return true
+        File file = new File("${sysConfig.articleDataStorePath}/${articleId}/${CommConst.ARTICLE_COMMENT_PATH}/${new Date().getTime()}.json")
+        while (file.exists()) {
+            file = new File("${sysConfig.articleDataStorePath}/${articleId}/${CommConst.ARTICLE_COMMENT_PATH}/${new Date().getTime()}.json")
+        }
+        if (file.createNewFile()) {
+            String jsonString = JSONObject.toJSONString(articleCommentPo)
+            try {
+                new FileWriter(file).with {
+                    write(jsonString)
+                }
+            } catch (Exception e) {
+                e.printStackTrace()
+            }
+            return true
+        }
+        return false
+    }
+
+    @Override
+    boolean beyondLimit(String articleId, String email, int limit) {
+        List<ArticleCommentPo> articleCommentPos = getCommentsByArticleId(articleId)
+        int count = 0
+        for (ArticleCommentPo po in articleCommentPos) {
+            if (po.email == email) {
+                count++
+            }
+        }
+        return count >= limit
     }
 
     @Override

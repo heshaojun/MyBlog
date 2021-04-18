@@ -17,3 +17,4 @@ sys:
     email: masker_zero@163.com
     codeTimeout: 600000
     resendTimeout: 60000
+    commentLimit: 50

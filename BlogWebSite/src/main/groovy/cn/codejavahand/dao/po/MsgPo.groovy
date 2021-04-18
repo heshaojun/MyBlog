@@ -5,8 +5,12 @@ package cn.codejavahand.dao.po
  * @description TODO
  */
 class MsgPo {
+    /*用户名称*/
     String name
-    String type
-    String time
+    /*用户邮箱*/
+    String email
+    /*文章评论文本*/
     String msg
+    /*评论时间*/
+    String time
 }

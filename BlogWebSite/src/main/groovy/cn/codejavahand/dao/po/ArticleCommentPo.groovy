@@ -5,10 +5,11 @@ package cn.codejavahand.dao.po
  * @description TODO 文章评论数据持久化对象
  */
 class ArticleCommentPo {
+
     /*用户名称*/
     String name
-    /*用户类型（微信|github|qq）*/
-    String type
+    /*用户邮箱*/
+    String email
     /*文章评论文本*/
     String comment
     /*评论时间*/

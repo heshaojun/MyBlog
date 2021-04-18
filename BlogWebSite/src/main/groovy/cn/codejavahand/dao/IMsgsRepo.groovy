@@ -9,5 +9,7 @@ import cn.codejavahand.dao.po.MsgPo
 interface IMsgsRepo extends ICacheCleaner {
     List<MsgPo> getAllMsg()
 
-    void addMsg(MsgPo msgPo)
+    boolean addMsg(MsgPo msgPo)
+
+    boolean beyondLimit(String email, int limit)
 }

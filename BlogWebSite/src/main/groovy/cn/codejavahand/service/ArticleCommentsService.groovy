@@ -4,6 +4,7 @@ package cn.codejavahand.service
 import cn.codejavahand.common.RestResp
 import cn.codejavahand.config.SysConfig
 import cn.codejavahand.dao.IArticleCommentRepo
+import cn.codejavahand.dao.IArticleIdRepo
 import cn.codejavahand.dao.IArticleInfoRepo
 import cn.codejavahand.dao.po.ArticleCommentPo
 import cn.codejavahand.dao.po.ArticleInfoPo
@@ -27,6 +28,8 @@ class ArticleCommentsService {
     private IArticleCommentRepo articleCommentRepo
     @Autowired
     private IArticleInfoRepo articleInfoRepo
+    @Autowired
+    private IArticleIdRepo articleIdRepo
 
     RestResp getComments(String articleId) {
         RestResp resp = [
@@ -47,6 +50,11 @@ class ArticleCommentsService {
                         data = articleCommentPos.subList(0, sysConfig.commentsListNum)
                     }
                 }
+                List<ArticleCommentPo> result = []
+                data.forEach({
+                    String[] strings = it.email.split("@")
+                    it.email = "${strings[0].substring(0, strings[0].length() / 2)}**@${strings[1]}"
+                })
                 resp = [code: 200, msg: "ok", data: data] as RestResp
             }
         } catch (Exception e) {
@@ -59,16 +67,33 @@ class ArticleCommentsService {
         RestResp resp = new RestResp(code: 300, msg: "fail")
         HttpSession session = request.getSession()
         String userName = session.getAttribute("userName")
+        String email = session.getAttribute("email")
         if (userName != null && userName != "") {
             String articleId = request.getParameter("articleId")
             String comment = request.getParameter("comment")
             if (articleId != null && articleId != "" && comment != null && comment != "" && comment.length() <= 300) {
-
+                ArticleCommentPo po = new ArticleCommentPo()
+                SimpleDateFormat dateFormat = new SimpleDateFormat("yyyy-MM-dd HH:mm:ss")
+                po.name = userName
+                po.email = email
+                po.comment = comment
+                po.time = dateFormat.format(new Date())
+                if (!articleIdRepo.getAllArticleList().contains(articleId)) {
+                    resp.msg = "评论的文章不存在！"
+                } else if (articleCommentRepo.beyondLimit(articleId, email, sysConfig.commentLimit)) {
+                    resp.msg = "你对单前文章的评论数已经超过限制"
+                } else if (articleCommentRepo.addArticleComment(articleId, po)) {
+                    resp.code = 200
+                    resp.msg = "提交成功"
+                } else {
+                    resp.msg = "提交失败"
+                }
+            } else {
+                resp.msg = "输入信息异常"
             }
         } else {
             resp.msg = "请登录！"
         }
-
 
     }
 

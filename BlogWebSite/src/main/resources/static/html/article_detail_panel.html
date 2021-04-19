@@ -8,13 +8,15 @@
 <div class="card mt-2 comments-input">
     <div class="card-body">
         <div class="w-100">
-            <span class="text-black-50" id="visitor-login-info">没有登录</span>
+            <span class="text-black-50 visitor-login-info" id="comment-login-info">没有登录</span>
             <span class="position-relative float-right  text-black-50"
                   id="comment-text-counter">0/300
             </span>
-            <textarea class="w-100" style="resize: none" maxlength="300" rows="7" readonly onclick="popUpLogin(this)"
+            <textarea class="w-100 article-textarea" id="comment-article-textarea" style="resize: none" maxlength="300"
+                      rows="7" readonly
+                      onclick="popUpLogin(this)"
                       oninput="commentCounter(this)" placeholder="欢迎发表你的评论！"></textarea>
-            <div class="btn w-100" style="background-color: #7abaff">发表</div>
+            <div class="btn w-100" style="background-color: #7abaff" onclick="commitComment()">发表</div>
         </div>
         <hr>
     </div>
@@ -24,8 +26,9 @@
 <script>
     showdown.setFlavor('github');
     let converter = new showdown.Converter({noHeaderId: true});
-    let visitor_login_info = getUserInfo();
     let articleId = pageParams['articleId'];
+
+
     $(function () {
         $.get(ARTICLE_DETAIL_DATA_URL + "?articleId=" + articleId, function (data) {
             let html = '<h3>文章不存在！</h3>';
@@ -64,14 +67,8 @@
                 let html = "";
                 let commentsInfo = data.data;
                 for (let index in commentsInfo) {
-                    let img_url = 'https://gitee.com/heshaojun/blogResources/raw/master/site/img/wechat.png';
+                    let img_url = 'https://gitee.com/heshaojun/blogResources/raw/master/site/img/github.png';
                     let commentInfo = commentsInfo[index];
-                    if (commentInfo['type'] == 'qq') {
-                        img_url = 'https://gitee.com/heshaojun/blogResources/raw/master/site/img/qq.png';
-                    }
-                    if (commentInfo['type'] == 'github') {
-                        img_url = 'https://gitee.com/heshaojun/blogResources/raw/master/site/img/github.png';
-                    }
                     let item = '<div>\n' +
                         '            <div>\n' +
                         '                <img style="height: 25px" src="' + img_url + '">\n' +
@@ -96,16 +93,35 @@
         $("#comment-text-counter").text("" + $(selector).val().length + "/300")
     }
 
-    function getUserInfo() {
-        return null;
-    }
-
-    function popUpLogin(selector) {
+    function commitComment() {
+        debugger;
         if (!visitor_login_info) {
-            alert("正在建设中...")
+            $("#login_modal").modal('toggle');
+            return;
+        }
+        let comment = $("#comment-article-textarea").val();
+        if (comment) {
+            $.post("/rest/commitComment", {articleId: articleId, comment: comment}, function (result) {
+                if (result['code'] == 200) {
+                    alert("发表评论成功！");
+                    location.reload();
+                } else {
+                    alert(result['msg'])
+                }
+            });
         } else {
-            $(selector).removeAttr("readonly");
-            $("#visitor-login-info").text(visitor_login_info['name'])
+            alert("评论信息为空")
+        }
+    }
+</script>
+<script>
+    getUserInfo();
+    commentShowUserName();
+
+    function commentShowUserName() {
+        if (visitor_login_info) {
+            $("#comment-login-info").text(visitor_login_info['userName']);
+            $(".article-textarea").removeAttr("readonly");
         }
     }
 </script>

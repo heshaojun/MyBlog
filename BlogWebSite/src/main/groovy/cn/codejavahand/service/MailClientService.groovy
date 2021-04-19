@@ -54,7 +54,7 @@ class MailClientService {
                 String subject = "Mr.Ho个人网站验证码"
                 String context = "验证码：${code} 请在10分钟内使用！"
                 if (sendMsg(subject, context, email)) {
-
+                    log.info("验证码：${code}")
                     HttpSession session = request.getSession()
                     session.setAttribute("email", email)
                     session.setAttribute("code", code)

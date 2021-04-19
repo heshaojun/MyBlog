@@ -2,16 +2,18 @@
 <div class="card mt-2 p-2">
     <div class="card-body p-0 pb-4">
         <div class="w-100">
-            <span class="text-black-50" id="visitor-login-info">没有登录</span>
+            <span class="text-black-50 visitor-login-info" id="msg-login-info">没有登录</span>
             <span class="position-relative float-right  text-black-50"
                   id="msg-text-counter">0/300
             </span>
-            <textarea class="w-100" style="resize: none" maxlength="300" rows="7" readonly onclick="popUpLogin(this)"
+            <textarea class="w-100 article-textarea" id="msg-article-textarea" style="resize: none" maxlength="300"
+                      rows="7" readonly
+                      onclick="popUpLogin(this)"
                       oninput="commentCounter(this)" placeholder="欢迎发表你的留言！"></textarea>
-            <div class="btn w-100" style="background-color: #7abaff">发表</div>
+            <div class="btn w-100" style="background-color: #7abaff" onclick="commitMsg()">发表</div>
         </div>
     </div>
-    <div class="text-center"><h5>用户评论</h5></div>
+    <div class="text-center"><h5>用户留言</h5></div>
     <div class="msg-list pb-4">
 
     </div>
@@ -21,24 +23,11 @@
 </div>
 
 <script>
-    let visitor_login_info = getUserInfo();
     let pageSize = 10;
+    var current_page = 1;
 
     function commentCounter(selector) {
         $("#msg-text-counter").text("" + $(selector).val().length + "/300")
-    }
-
-    function getUserInfo() {
-        return null;
-    }
-
-    function popUpLogin(selector) {
-        if (!visitor_login_info) {
-            alert("正在建设中...")
-        } else {
-            $(selector).removeAttr("readonly");
-            $("#visitor-login-info").text(visitor_login_info['name'])
-        }
     }
 
     /*分页条加载函数*/
@@ -108,25 +97,28 @@
 
     /*翻页函数*/
     function msgListPageChange(selector) {
-
+        let index = $(selector).text();
+        loadMsgListArea(index);
     }
 
     function msgListPagePre() {
+        if (current_page == 0) {
+            current_page = 1;
+            return
+        }
+        if (current_page > 1) {
+            loadMsgListArea(current_page - 1)
+        }
 
     }
 
     function loadMsgList(data) {
         let html = "";
         let msgsInfo = data;
+
         for (let index in msgsInfo) {
-            let img_url = 'https://gitee.com/heshaojun/blogResources/raw/master/site/img/wechat.png';
+            let img_url = 'https://gitee.com/heshaojun/blogResources/raw/master/site/img/github.png';
             let msgInfo = msgsInfo[index];
-            if (msgInfo['type'] == 'qq') {
-                img_url = 'https://gitee.com/heshaojun/blogResources/raw/master/site/img/qq.png';
-            }
-            if (msgInfo['type'] == 'github') {
-                img_url = 'https://gitee.com/heshaojun/blogResources/raw/master/site/img/github.png';
-            }
             let item = '<div>\n' +
                 '            <div>\n' +
                 '                <img style="height: 25px" src="' + img_url + '">\n' +
@@ -137,20 +129,22 @@
             let item_selector = $(item);
             console.log($(item_selector).html());
             $(item_selector).find('.comment-user-name').text(msgInfo['name'] + "：");
-            $(item_selector).find('.comment-item-comment').text(msgInfo['comment']);
+            $(item_selector).find('.comment-item-comment').text(msgInfo['msg']);
             html += '        <div class="card p-2 mb-1">\n' + $(item_selector).html() + '        </div>\n';
         }
         $('.msg-list').html(html);
     }
 
     function msgListPageNext() {
-
+        loadMsgListArea(current_page + 1);
     }
 
     function loadMsgListArea(page) {
-        $.get('../data/msg_list.json?page=' + page + '&pageSize=' + pageSize, function (data) {
+        debugger;
+        $.get('/rest/getMsgs?page=' + page + '&pageSize=' + pageSize, function (data) {
             if (data.code == 200) {
                 let respData = data['data'];
+                current_page = respData['index'];
                 let list = respData['list'];
                 loadMsgList(list);
                 loadPagination(".msg-pagination", respData);
@@ -158,7 +152,39 @@
         });
     }
 
+    function commitMsg() {
+        if (!visitor_login_info) {
+            $("#login_modal").modal('toggle');
+            return;
+        }
+        let msg = $("#msg-article-textarea").val();
+        if (msg) {
+            $.post("/rest/commitMsg", {msg: msg}, function (result) {
+                if (result['code'] == 200) {
+                    alert("发表留言成功！");
+                    location.reload();
+                } else {
+                    alert(result['msg'])
+                }
+            });
+        } else {
+            alert("留言信息为空")
+        }
+    }
+
     $(function () {
         loadMsgListArea(1);
     });
+</script>
+<script>
+    debugger
+    getUserInfo();
+    msgShowUserName();
+
+    function msgShowUserName() {
+        if (visitor_login_info) {
+            $("#msg-login-info").text(visitor_login_info['userName']);
+            $(".article-textarea").removeAttr("readonly");
+        }
+    }
 </script>

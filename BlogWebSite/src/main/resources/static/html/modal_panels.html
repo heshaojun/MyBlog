@@ -15,4 +15,32 @@
             </div>
         </div>
     </div>
+    <div class="modal fade" id="login_modal">
+        <div class="modal-dialog modal-dialog-centered modal-sm">
+            <div class="modal-content">
+                <div class="modal-header">
+                    <div class="modal-title w-100 text-center">访客登录</div>
+                </div>
+                <div class="modal-body">
+                    <div class="input-group mb-3">
+                        <input type="text" class="form-control" id="login-email" name="email" placeholder="请输入您的邮箱">
+                        <div class="input-group-append">
+                            <button class="btn btn-outline-secondary" id="login-get-email" type="button"
+                                    onclick="fetchCode()">获取验证码
+                            </button>
+                        </div>
+                    </div>
+                    <div class="input-group mb-3">
+                        <input type="text" class="form-control" name="name" id="login-name" placeholder="请输入您的昵称">
+                    </div>
+                    <div class="input-group mb-3">
+                        <input type="text" class="form-control" name="name" id="login-code" placeholder="请输入您邮件中收到的验证码">
+                    </div>
+                    <button type="button" class="form-control bg-primary text-white" id="login-btn"
+                            onclick="userLogin()">登录
+                    </button>
+                </div>
+            </div>
+        </div>
+    </div>
 </div>

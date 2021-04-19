@@ -121,7 +121,7 @@ class RestApiController {
         gitPushHookService.doService(request)
     }
 
-    @GetMapping("msgs")
+    @GetMapping("getMsgs")
     RestResp getMsg(@RequestParam(name = "page", defaultValue = "1") Integer page, @RequestParam(name = "pageSize", defaultValue = "10") Integer pageSize) {
         msgsService.getMsgs(page, pageSize)
     }

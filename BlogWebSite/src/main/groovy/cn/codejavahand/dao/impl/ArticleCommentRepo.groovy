@@ -5,6 +5,7 @@ import cn.codejavahand.config.SysConfig
 import cn.codejavahand.dao.IArticleCommentRepo
 import cn.codejavahand.dao.po.ArticleCommentPo
 import com.alibaba.fastjson.JSONObject
+import groovy.util.logging.Log
 import org.springframework.beans.factory.annotation.Autowired
 import org.springframework.cache.annotation.CacheEvict
 import org.springframework.cache.annotation.Cacheable
@@ -15,6 +16,7 @@ import org.springframework.stereotype.Service
  * @description TODO
  */
 @Service
+@Log
 class ArticleCommentRepo implements IArticleCommentRepo {
     @Autowired
     private SysConfig sysConfig
@@ -25,13 +27,20 @@ class ArticleCommentRepo implements IArticleCommentRepo {
         List<ArticleCommentPo> commentPos = new ArrayList<>()
         File path = new File("${sysConfig.articleDataStorePath}/${articleId}/${CommConst.ARTICLE_COMMENT_PATH}")
         if (path.exists()) {
-            Arrays.asList(path.list([accept: { dir, name -> dir.exists() && name.endsWith(".json") && (new File("${dir.absolutePath}/$name").isFile()) }] as FilenameFilter)).forEach(
-                    {
-                        new FileReader("${sysConfig.articleDataStorePath}/${articleId}/${CommConst.ARTICLE_COMMENT_PATH}/${it}").with {
-                            commentPos.add(JSONObject.parseObject(readLines().join(""), ArticleCommentPo.class))
+            String[] files = path.list([accept: { dir, name -> dir.exists() && name.endsWith(".json") && (new File("${dir.absolutePath}/$name").isFile()) }] as FilenameFilter)
+            for (String fileName in files) {
+                new FileReader("${sysConfig.articleDataStorePath}/${articleId}/${CommConst.ARTICLE_COMMENT_PATH}/${fileName}").with {
+                    String dataStr = readLines().join("")
+                    if (dataStr == "" || dataStr.replaceAll("\n", "").replaceAll(" ", "") == "") {
+                    } else {
+                        try {
+                            commentPos.add(JSONObject.parseObject(dataStr, ArticleCommentPo.class))
+                        } catch (Exception e) {
+                            e.printStackTrace()
                         }
                     }
-            )
+                }
+            }
         } else {
             path.mkdirs()
         }
@@ -48,8 +57,8 @@ class ArticleCommentRepo implements IArticleCommentRepo {
         if (file.createNewFile()) {
             String jsonString = JSONObject.toJSONString(articleCommentPo)
             try {
-                new FileWriter(file).with {
-                    write(jsonString)
+                new FileOutputStream(file).with {
+                    write("$jsonString".getBytes())
                 }
             } catch (Exception e) {
                 e.printStackTrace()

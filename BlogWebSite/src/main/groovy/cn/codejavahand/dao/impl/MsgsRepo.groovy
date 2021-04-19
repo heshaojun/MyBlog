@@ -28,40 +28,49 @@ class MsgsRepo implements IMsgsRepo {
         try {
             File root = new File("${sysConfig.siteMsgsDataStorePath}")
             SimpleDateFormat dateFormat = new SimpleDateFormat("yyyy-MM-dd HH:mm:ss")
-            if (root.isDirectory()) {
-                File[] files = root.listFiles({ File dir, String name -> name.endsWith(".json") })
-                for (File file in files) {
-                    try {
-                        new FileReader(file).with {
-                            try {
-                                msgPoList.add(JSONObject.parseObject(readLines().join(""), MsgPo.class))
-                            } catch (Exception e) {
-                                e.printStackTrace()
+            if (root.exists()) {
+                if (root.isDirectory()) {
+                    String[] files = root.list([accept: { dir, name -> dir.exists() && name.endsWith(".json") && (new File("${dir.absolutePath}/$name").isFile()) }] as FilenameFilter)
+                    for (String fileStr in files) {
+                        try {
+                            new FileReader("${sysConfig.siteMsgsDataStorePath}/${fileStr}").with {
+                                try {
+                                    String dataStr = readLines().join("")
+                                    if (dataStr == "" || dataStr.replaceAll("\n", "").replaceAll(" ", "") == "") {
+                                    } else {
+                                        msgPoList.add(JSONObject.parseObject(dataStr, MsgPo.class))
+                                    }
+                                } catch (Exception e) {
+                                    e.printStackTrace()
+                                }
                             }
+                        } catch (Exception e) {
+                            e.printStackTrace()
                         }
-                    } catch (Exception e) {
-                        e.printStackTrace()
                     }
                 }
+                msgPoList.sort { t1, t2 -> dateFormat.parse(t2.time).getTime() - dateFormat.parse(t1.time).getTime() }
+                return msgPoList
+            } else {
+                root.mkdir()
             }
-            msgPoList.sort { t1, t2 -> dateFormat.parse(t2.time).getTime() - dateFormat.parse(t1.time).getTime() }
-            return msgPoList
         } catch (Exception e) {
             e.printStackTrace()
         }
         return null
     }
 
-    @CacheEvict(cacheNames = ["allMsgsPoList"])
+    @CacheEvict(cacheNames = ["allMsgsPoList"], allEntries = true)
     @Override
     boolean addMsg(MsgPo msgPo) {
-        File file = new File("${sysConfig.siteMsgsDataStorePath}/${new Date().getTime()}/.json")
+        File file = new File("${sysConfig.siteMsgsDataStorePath}/${new Date().getTime()}.json")
         while (file.exists()) {
-            file = new File("${sysConfig.siteMsgsDataStorePath}/${new Date().getTime()}/.json")
+            file = new File("${sysConfig.siteMsgsDataStorePath}/${new Date().getTime()}.json")
         }
         if (file.createNewFile()) {
-            new FileWriter().with {
-                write(JSONObject.toJSONString(msgPo))
+            new FileOutputStream(file).with {
+                String dataStr = JSONObject.toJSONString(msgPo)
+                write("${dataStr}".getBytes())
             }
             return true
         }

@@ -149,17 +149,17 @@
     /*翻页函数*/
     function homeListPageChange(selector) {
         pageIndex = parseInt($(selector).text());
-        if (pageIndex < 0) pageIndex = 1
+        if (pageIndex < 0) pageIndex = 1;
         loadListArea()
     }
 
     function homeListPagePre() {
-        if (pageIndex > 1) pageIndex--
+        if (pageIndex > 1) pageIndex--;
         loadListArea()
     }
 
     function homeListPageNext() {
-        pageIndex++
+        pageIndex++;
         loadListArea()
     }
 
@@ -175,6 +175,7 @@
         $.get(ARTICLE_LIST_DATA_URL + '?scope=' + scope + '&page=' + pageIndex + '&pageSize=' + pageSize + '&type=' + listType + '&keyword=' + keyWord + '&order=' + orderBy, function (data) {
             if (data.code == 200) {
                 let respData = data['data'];
+                pageIndex = respData['index'];
                 let list = respData['list'];
                 if (list.length <= 0) {
                     $(".article-list-area").html("<div class='text-center'><h4>没有相关文章</h4></div>");

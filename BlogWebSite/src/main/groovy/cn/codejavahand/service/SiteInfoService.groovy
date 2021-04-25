@@ -4,8 +4,10 @@ import cn.codejavahand.bo.SiteInfoBo
 import cn.codejavahand.common.RestResp
 import cn.codejavahand.dao.IArticleIdRepo
 import cn.codejavahand.dao.IArticleInfoRepo
+import cn.codejavahand.dao.IMsgsRepo
 import cn.codejavahand.dao.IVisitCountRepo
 import cn.codejavahand.dao.po.ArticleInfoPo
+import cn.codejavahand.dao.po.MsgPo
 import cn.codejavahand.utils.IntegerUtils
 import groovy.util.logging.Log
 import org.springframework.beans.factory.annotation.Autowired
@@ -26,6 +28,8 @@ class SiteInfoService {
     private IVisitCountRepo visitCountRepo
     @Autowired
     private IArticleInfoRepo articleInfoRepo
+    @Autowired
+    private IMsgsRepo msgsRepo
 
     RestResp doService() {
         log.info("获取网站统计信息")
@@ -116,7 +120,10 @@ class SiteInfoService {
     private String getMsgCount() {
         String result = "0"
         try {
-
+            List<MsgPo> list = msgsRepo.getAllMsg()
+            if (list) {
+                result = "${list.size()}"
+            }
         } catch (Exception e) {
         }
         result

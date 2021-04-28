@@ -58,6 +58,7 @@ class ArticleVisitRepo implements IVisitCountRepo {
     }
 
 
+    @CacheEvict(cacheNames = ["articleVisitCount", "articleVisitCount"], allEntries = true)
     @Override
     void cleanCache() {
     }

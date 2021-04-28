@@ -38,7 +38,7 @@ class ArticleInfoRepo implements IArticleInfoRepo {
         articleInfoPo
     }
 
-    @CacheEvict(cacheNames = ["articleInfo"])
+    @CacheEvict(cacheNames = ["articleInfo"], allEntries = true)
     @Override
     void cleanCache() {
     }

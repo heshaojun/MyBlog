@@ -88,7 +88,7 @@ class MsgsRepo implements IMsgsRepo {
         return count >= limit
     }
 
-    @CacheEvict(cacheNames = ["allMsgsPoList"])
+    @CacheEvict(cacheNames = ["allMsgsPoList", "allMsgsPoList"], allEntries = true)
     @Override
     void cleanCache() {
     }

@@ -28,7 +28,7 @@ class ArticleIdRepo implements IArticleIdRepo {
         idList
     }
 
-    @CacheEvict(cacheNames = ["allArticleId"])
+    @CacheEvict(cacheNames = ["allArticleId"], allEntries = true)
     @Override
     void cleanCache() {
     }

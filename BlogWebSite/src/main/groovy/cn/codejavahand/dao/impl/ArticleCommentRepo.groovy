@@ -80,6 +80,7 @@ class ArticleCommentRepo implements IArticleCommentRepo {
         return count >= limit
     }
 
+    @CacheEvict(cacheNames = ["articleComments", "articleComments"], allEntries = true)
     @Override
     void cleanCache() {
     }

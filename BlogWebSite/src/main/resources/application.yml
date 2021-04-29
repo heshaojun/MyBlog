@@ -2,11 +2,11 @@ server:
   port: 80
 sys:
   config:
-    articleStoragePath: /Users/heath/workspace/testFolder/myBlog/blogArticles
-    siteMsgsDataStorePath: /Users/heath/workspace/testFolder/myBlog/data/msgs
-    articleDataStorePath: /Users/heath/workspace/testFolder/myBlog/data/article
+    articleStoragePath: F:/workspace/blogdata/myBlog/blogArticles
+    siteMsgsDataStorePath: F:/workspace/blogdata/myBlog/data/msgs
+    articleDataStorePath: F:/workspace/blogdata/myBlog/data/article
     commentsListNum: 10
-    shellPath: /Users/heath/workspace/testFolder/myBlog/gitpull.sh
+    shellPath: F:/workspace/blogdata/myBlog/gitpull.sh
     domainNames:
       - www.codejavahand.cn
       - codejavahand.cn

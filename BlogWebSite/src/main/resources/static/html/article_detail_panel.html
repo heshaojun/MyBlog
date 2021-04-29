@@ -25,7 +25,7 @@
 </div>
 <script>
     showdown.setFlavor('github');
-    let converter = new showdown.Converter({noHeaderId: true});
+    let converter = new showdown.Converter({noHeaderId: true, extensions: ['table']});
     let articleId = pageParams['articleId'];
 
 
@@ -52,7 +52,7 @@
                     '                    <div class="pr-3 align-self-center font-italic">注：本站博客多为原创，如有转载请表明出处。</div>\n' +
                     '                </div>\n' +
                     '            </div>\n' +
-                    '            <div class="pt-2 border-bottom">\n' +
+                    '            <div class="pt-2 border-bottom markdown-body">\n' +
                     '                ' + context + '\n' +
                     '            </div>\n' +
                     '            <div class="pt-3 pb-2">\n' +
